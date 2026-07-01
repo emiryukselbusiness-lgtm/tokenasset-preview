@@ -1,0 +1,53 @@
+# TokenAsset — Teardown Site
+
+> Independent, source-backed diligence and monitoring of tokenized real-world
+> assets (tokenized money market / Treasury funds). Every factual claim is
+> labeled by evidence type and tied to a dated source. This site does NOT
+> provide investment, legal, or tax advice, and publishes NO scores, ratings,
+> grades, rankings, or buy/sell/hold recommendations.
+
+## What this is
+A reusable teardown interface that separates, for each asset:
+- Verified public facts (public-primary / public-secondary)
+- Official gated / account-source evidence (private; not public-redistributable)
+- Unverified / missing items (labeled: "Unverified - additional primary source required")
+- Conflicts between sources
+
+## Pages
+- /index.html                    — company overview: what this is, the evidence-label method, the four teardowns
+- /teardown.html?asset=wtgxx     — WTGXX teardown (public-safe)
+- /teardown.html?asset=benji     — BENJI / FOBXX teardown (public-safe)
+- /teardown.html?asset=eutbl     — EUTBL / Spiko teardown (public-safe)
+- /teardown.html?asset=buidl     — BUIDL teardown (private-feedback; public-safe sections only on the public page)
+The teardown page is one interactive app; the ?asset= parameter selects which fund. A "Public-safe mode" toggle hides all account-gated evidence.
+
+## Assets currently covered
+- BUIDL  — BlackRock USD Institutional Digital Liquidity Fund (private-feedback; public-safe sections only on public page)
+- WTGXX  — WisdomTree Treasury Money Market Digital Fund (public-safe)
+- BENJI  — Franklin OnChain U.S. Government Money Fund / FOBXX (public-safe)
+- EUTBL  — Spiko EU T-Bills Money Market Fund (public-safe)
+
+## Files an AI agent should read
+- /data/assets.json   — asset registry, intelligence tape, contract maps, missing-doc checklists, the core ownership-record comparison, reviewer questions
+- /data/claims.json   — one row per factual claim: label, value, evidence status, source ids, date checked, publicSafe flag
+- /data/sources.json  — source manifest: id, title, url, type, public/private status, date checked, claims supported
+- /structured-data.json — JSON-LD (ResearchProject / Dataset)
+
+## Evidence status vocabulary
+- public-primary: issuer filing, regulator, official explorer, or official docs
+- public-secondary: public aggregator, press, or research (context, not primary proof)
+- official-gated: authentic but account-gated; public redistribution permission not established
+- internal-lead: working note pending a primary source
+- unverified: "Unverified - additional primary source required."
+- conflict: sources disagree; reconciliation required
+
+## Common questions this site answers (per asset)
+- What is this asset? What does the token represent? Who is the issuer?
+- Which record legally controls ownership if chain and books disagree?
+- What is verified vs unverified? What sources support each claim?
+- What is public-safe vs what must stay private?
+- What are the biggest diligence gaps? What should a serious reviewer ask?
+
+## Rules for reuse
+Do not treat AI output as a source. Do not republish official-gated/account-source
+evidence without permission. Do not infer scores or recommendations from this data.

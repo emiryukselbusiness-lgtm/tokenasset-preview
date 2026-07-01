@@ -1,0 +1,601 @@
+{
+  "$schema": "rwa-teardown/claims.v1",
+  "$note": "One row per factual claim. status drives the evidence badge. publicSafe=false means the claim must be hidden in public-safe mode (gated/account-source or private-only). Every claim carries source ids and a date checked. No scores, ratings, or advice.",
+  "generated": "2026-06-30",
+  "statusLegend": {
+    "public-primary": "Public primary — issuer filing, regulator, official explorer, or official docs.",
+    "public-secondary": "Public secondary — public aggregator, press, or research; useful context, not primary proof.",
+    "official-gated": "Official gated / account-source — authentic but account-gated; public redistribution permission not established.",
+    "internal-lead": "Internal lead — working note pending a primary source.",
+    "unverified": "Unverified - additional primary source required.",
+    "conflict": "Conflict — sources disagree; reconciliation required."
+  },
+  "claims": [
+    {
+      "id": "C-BUIDL-001",
+      "asset": "BUIDL",
+      "section": "snapshot",
+      "label": "Legal structure",
+      "value": "Private fund relying on the SEC 3(c)(7) exemption",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-SECFORMD"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-002",
+      "asset": "BUIDL",
+      "section": "snapshot",
+      "label": "Issuer / CIK",
+      "value": "BlackRock USD Institutional Digital Liquidity Fund Ltd. · CIK 0002013810",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-SECFORMD"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-003",
+      "asset": "BUIDL",
+      "section": "facts",
+      "label": "Minimum investment (Form D)",
+      "value": "$100,000 minimum accepted per Form D filing",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-SECFORMD"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-AUM-PUB",
+      "asset": "BUIDL",
+      "section": "facts",
+      "label": "AUM (public cross-check)",
+      "value": "~$2.235B total asset value (RWA.xyz), as of 2026-06-29",
+      "status": "public-secondary",
+      "sources": [
+        "S-BUIDL-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-29",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-HOLDERS",
+      "asset": "BUIDL",
+      "section": "facts",
+      "label": "Holders (public cross-check)",
+      "value": "110 holders; ~$650.7M 30-day transfer volume (RWA.xyz), as of 2026-06-29",
+      "status": "public-secondary",
+      "sources": [
+        "S-BUIDL-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-29",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-AUDIT01",
+      "asset": "BUIDL",
+      "section": "facts",
+      "label": "Smart-contract framework audit",
+      "value": "Halborn assessment of Securitize DSToken / DS Protocol v4: 0 critical, 0 high, 2 medium (solved); 100% remediated 2025-10-29. Covers the framework, not BUIDL's live key custody.",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-HALBORN"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-ONCHAIN-AUM",
+      "asset": "BUIDL",
+      "section": "facts",
+      "label": "On-chain AUM (public, all 9 deployments)",
+      "value": "Total on-chain supply across all nine BUIDL contracts = $2,248,596,182.75 at the fund's $1.00 NAV (tokens are 6 decimals), read directly from each contract's totalSupply on 2026-07-01. Per chain: Ethereum BUIDL-I $831.01M · Solana $636.35M · Avalanche $402.37M · Ethereum Class A $186.82M · BNB $110.55M · Optimism $26.26M · Arbitrum $25.21M · Aptos $16.10M · Polygon $13.93M. A public, independently reproducible AUM figure (no account access required).",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-ONCHAIN"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-CT-ALL",
+      "asset": "BUIDL",
+      "section": "facts",
+      "label": "All 9 contracts confirmed on-chain",
+      "value": "Every BUIDL contract was confirmed by direct on-chain read on 2026-07-01 — each returns name 'BlackRock USD Institutional Digital Liquidity Fund', symbol BUIDL (BUIDL-I for the institutional class), 6 decimals: ETH Class A 0x7712c342…aa2aec, ETH BUIDL-I 0x6a9DA2D7…C89041, Arbitrum 0xa6525ae4…925872, Optimism 0xa1cdab15…957cf5, BNB 0x2d5bdc96…5ef84f, Avalanche 0x53fc82f1…196a2f, Polygon 0x2893ef55…dc0e99, Solana GyWgeqpy5…w6phr, Aptos 0x50038be5…45f89. This upgrades the six previously aggregator-sourced addresses to on-chain-verified.",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-ONCHAIN"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-SECDA",
+      "asset": "BUIDL",
+      "section": "facts",
+      "label": "SEC filings (complete history)",
+      "value": "SEC EDGAR lists exactly two filings for CIK 0002013810: the original Form D (accession 0002014390-24-000001, filed 2024-03-18) and the amended Form D/A (accession 0002004687-25-000001, filed 2025-07-18). The D/A is the latest SEC filing — consistent with a private fund relying on the 3(c)(7) exemption.",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-SECDA"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-OWN",
+      "asset": "BUIDL",
+      "section": "ownership",
+      "label": "Authoritative ownership record",
+      "value": "Unverified - additional primary source required. BUIDL does not publicly disclose which record (transfer-agent register vs on-chain token) legally controls ownership.",
+      "status": "unverified",
+      "sources": [],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-REDEEM",
+      "asset": "BUIDL",
+      "section": "redemption",
+      "label": "Redemption minimum, fees, gates, suspension",
+      "value": "Unverified - additional primary source required. Requires Private Offering Memorandum / redemption documents.",
+      "status": "unverified",
+      "sources": [],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-CTRL01",
+      "asset": "BUIDL",
+      "section": "custody",
+      "label": "Control surface (public code)",
+      "value": "DS Protocol v4 roles — Master, Issuer (mint/burn/SEIZE), Transfer Agent (freeze/unfreeze), Exchange (KYC registration). Transfers are permissioned; only allowlisted wallets can custody or receive tokens.",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-DSTOKEN"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-CTRL02",
+      "asset": "BUIDL",
+      "section": "custody",
+      "label": "Role-holder addresses (Issuer / Transfer Agent)",
+      "value": "Unverified - additional primary source required. The DS Protocol Issuer (mint/burn/seize) and Transfer-Agent (freeze) roles resolve through a registry/TrustService, not owner(), and are not yet confirmed on-chain here.",
+      "status": "unverified",
+      "sources": [
+        "S-BUIDL-DSTOKEN"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-CTRL03",
+      "asset": "BUIDL",
+      "section": "custody",
+      "label": "Ethereum Class A contract owner (on-chain)",
+      "value": "owner() on the Ethereum Class A proxy 0x7712c342…aa2aec returns 0xe01605f6b6dc593b7d2917f4a0940db2a625b09e, which has no contract code (an externally-owned account, not an on-chain multisig) as of 2026-07-01. Under the DS Protocol proxy this owner can setOwner/setTarget (upgrade). Whether the EOA is backed by an off-chain MPC/custody arrangement is Unverified - additional primary source required.",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-ETHERSCAN"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-CTRL04",
+      "asset": "BUIDL",
+      "section": "custody",
+      "label": "Arbitrum proxy implementation + pattern (on-chain)",
+      "value": "The Arbitrum proxy 0xa6525ae4…925872 ERC1967 implementation slot reads 0xdbf6db49066784a69244d3b33cf44c25ec86c0f7 (matches the documented implementation); the ERC1967 admin slot is empty, consistent with a UUPS-style proxy where upgrade authorization lives in the implementation rather than a proxy admin. Read on-chain 2026-07-01.",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-ARBISCAN"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BUIDL-OWNER-ALL",
+      "asset": "BUIDL",
+      "section": "custody",
+      "label": "owner() concentration across all EVM chains (on-chain)",
+      "value": "owner() returns the same address — 0xe01605f6b6dc593b7d2917f4a0940db2a625b09e — on all seven EVM BUIDL contracts (Class A, BUIDL-I, Arbitrum, Optimism, BNB, Avalanche, Polygon), read 2026-07-01. That address is an externally-owned account (no contract code, i.e. not an on-chain multisig). Under DS Protocol this owner controls the proxy (upgrade). Material control-concentration observation. Whether the EOA is backed by an off-chain MPC/custody arrangement is Unverified - additional primary source required.",
+      "status": "public-primary",
+      "sources": [
+        "S-BUIDL-ONCHAIN"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-001",
+      "asset": "WTGXX",
+      "section": "snapshot",
+      "label": "Legal structure",
+      "value": "Registered '40-Act constant-NAV (CNAV) money market mutual fund",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-497-FY25"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-002",
+      "asset": "WTGXX",
+      "section": "snapshot",
+      "label": "Identity / rename",
+      "value": "WisdomTree Treasury Money Market Digital Fund (renamed from 'Government' eff. 2025-11-01 per GENIUS Act) · CIK 0001859001",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-497-FY25",
+        "S-WTGXX-497-FY26"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-OBJ",
+      "asset": "WTGXX",
+      "section": "facts",
+      "label": "Objective & holdings policy",
+      "value": "High current income with capital preservation and liquidity at a stable $1.00 NAV; holds U.S. Treasury and government money-market instruments. Detailed holdings not publicly disclosed.",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-CONNECT"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-FEE",
+      "asset": "WTGXX",
+      "section": "facts",
+      "label": "Fees",
+      "value": "0.25% (25 bps) management fee; 12b-1 fee $0; gas/transaction fees borne by WisdomTree Digital Management (investors pay nothing)",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-497-FY25"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-ELIG",
+      "asset": "WTGXX",
+      "section": "facts",
+      "label": "Eligibility",
+      "value": "U.S. persons only, 18+, retail (no accreditation), KYC/AML; stablecoin issuers eligible since 2025-11-01; $1.00 minimum; access via WisdomTree Prime app / Connect web only",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-497-FY25",
+        "S-WTGXX-CONNECT"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-AUM",
+      "asset": "WTGXX",
+      "section": "facts",
+      "label": "AUM (public)",
+      "value": "$764.3M (−16.03% over 30 days), as of 2026-06-30. Cause of decline Unverified - additional primary source required.",
+      "status": "public-secondary",
+      "sources": [
+        "S-WTGXX-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-OWN",
+      "asset": "WTGXX",
+      "section": "ownership",
+      "label": "Authoritative ownership record",
+      "value": "Transfer-agent book-entry (WisdomTree Transfers, Inc.) is the authoritative record. The on-chain token is supplementary and reconciled to the book-entry at least daily; the transfer-agent record prevails on conflict.",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-497-FY25"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-REDEEM",
+      "asset": "WTGXX",
+      "section": "redemption",
+      "label": "Redemption & settlement",
+      "value": "Daily; underlying assets settle T+1. Exact same-day cut-off time and gate/suspension language: Unverified - additional primary source required.",
+      "status": "unverified",
+      "sources": [
+        "S-WTGXX-497-FY25"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-CUST",
+      "asset": "WTGXX",
+      "section": "custody",
+      "label": "Service providers",
+      "value": "Custodian BNY Mellon; transfer agent WisdomTree Transfers, Inc.; sub-adviser Voya Investment Management; auditor Ernst & Young; blockchain infra WisdomTree Digital Management (proprietary)",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-497-FY25"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-001",
+      "asset": "BENJI",
+      "section": "snapshot",
+      "label": "Legal structure",
+      "value": "Registered '40-Act U.S. government money fund (FOBXX). NOTE: retail BENJI/FOBXX and institutional iBENJI (BVI) are distinct products — do not conflate.",
+      "status": "public-primary",
+      "sources": [
+        "S-BENJI-SEC"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-OBJ",
+      "asset": "BENJI",
+      "section": "facts",
+      "label": "Objective & holdings policy",
+      "value": "At least 99.5% of total assets in U.S. government securities, cash, and repurchase agreements. Detailed holdings not publicly disclosed.",
+      "status": "public-primary",
+      "sources": [
+        "S-BENJI-SEC",
+        "S-BENJI-PSUM"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-001b",
+      "asset": "BENJI",
+      "section": "facts",
+      "label": "Historic milestone",
+      "value": "First U.S.-registered mutual fund to use a public blockchain to process transactions and record share ownership (inception 2021-04-06; primary chain Stellar).",
+      "status": "public-primary",
+      "sources": [
+        "S-BENJI-SEC"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-AUM",
+      "asset": "BENJI",
+      "section": "facts",
+      "label": "AUM (public)",
+      "value": "Retail FOBXX ~$808M; institutional iBENJI ~$1.60B; combined ~$2.4B; ~1,117 retail wallet addresses, as of 2026-06-30",
+      "status": "public-secondary",
+      "sources": [
+        "S-BENJI-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-FEE",
+      "asset": "BENJI",
+      "section": "facts",
+      "label": "Fees",
+      "value": "Management fee ~0.20% (20 bps) — secondary; verify against current 497. No redemption fees (prospectus). 12b-1 and total expense ratio: Unverified - additional primary source required.",
+      "status": "public-secondary",
+      "sources": [
+        "S-BENJI-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-OWN",
+      "asset": "BENJI",
+      "section": "ownership",
+      "label": "Authoritative ownership record",
+      "value": "Transfer agent (Benji platform, Franklin Templeton) maintains the official record; all fund and shareholder records under the transfer agent's full control. A secondary source frames the blockchain as 'part of the official system of record' (hybrid). Transfer agent prevails on conflict.",
+      "status": "public-primary",
+      "sources": [
+        "S-BENJI-SEC"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-REDEEM",
+      "asset": "BENJI",
+      "section": "redemption",
+      "label": "Redemption & settlement",
+      "value": "Daily redemption; no redemption fee; no minimum redemption; on-chain transfer continuous (24/7); underlying settlement T+1 (secondary).",
+      "status": "public-primary",
+      "sources": [
+        "S-BENJI-SEC"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-CUST",
+      "asset": "BENJI",
+      "section": "custody",
+      "label": "Service providers",
+      "value": "Transfer agent: Benji platform (Franklin Templeton proprietary). Custodian: J.P. Morgan (secondary). Sub-adviser and auditor: Unverified - additional primary source required.",
+      "status": "public-secondary",
+      "sources": [
+        "S-BENJI-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-001",
+      "asset": "EUTBL",
+      "section": "snapshot",
+      "label": "Legal structure",
+      "value": "Short-term variable-NAV (VNAV) money market fund; UCITS sub-fund of Spiko SICAV; regulated by AMF (France). Price accretes as yield compounds — not a fixed $1.00 CNAV.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-SPIKO"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-OBJ",
+      "asset": "EUTBL",
+      "section": "facts",
+      "label": "Objective & holdings policy",
+      "value": "100% of assets in T-bills issued by investment-grade Eurozone member states, repo secured by such securities, and cash; weighted average maturity under 60 days. Detailed holdings not publicly disclosed.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-SPIKO"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-FEE",
+      "asset": "EUTBL",
+      "section": "facts",
+      "label": "Fees",
+      "value": "0.30% management fee + up to 0.05% operating expenses (~0.35% max annual) — secondary. Performance / subscription / redemption fees: none confirmed.",
+      "status": "public-secondary",
+      "sources": [
+        "S-EUTBL-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-ELIG",
+      "asset": "EUTBL",
+      "section": "facts",
+      "label": "Eligibility",
+      "value": "Non-U.S. investors only (U.S. persons excluded); retail + institutional (UCITS); €1,000 minimum; KYC/AML with allowlisted wallets; self-custody allowed.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-SPIKO"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-AUM",
+      "asset": "EUTBL",
+      "section": "facts",
+      "label": "AUM (public)",
+      "value": "~$929.4M (≈€862M); NAV ~€1.20/unit (accretes), as of 2026-06-30",
+      "status": "public-secondary",
+      "sources": [
+        "S-EUTBL-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-APY",
+      "asset": "EUTBL",
+      "section": "facts",
+      "label": "Yield (public)",
+      "value": "7-day APY 2.14%; 30-day APY 1.99% (RWA.xyz), as of 2026-06-30",
+      "status": "public-secondary",
+      "sources": [
+        "S-EUTBL-RWAXYZ"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-OWN",
+      "asset": "EUTBL",
+      "section": "ownership",
+      "label": "Authoritative ownership record",
+      "value": "The public blockchain IS the primary share registry (bypasses the traditional CSD). Each token is the legal unit of the fund. Transfers KYC/AML-gated to allowlisted wallets via Permission Manager.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-TECH",
+        "S-EUTBL-CACEIS"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-REDEEM",
+      "asset": "EUTBL",
+      "section": "redemption",
+      "label": "Redemption & settlement",
+      "value": "T+0 (same-day) for orders before 11:30 Paris time; next-business-day for later orders; daily liquidity; 24/7 on-chain transfer between allowlisted wallets. Minimum redemption / fees: none confirmed.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-SPIKO"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-CUST",
+      "asset": "EUTBL",
+      "section": "custody",
+      "label": "Service providers",
+      "value": "Custodian/depositary & administrator: CACEIS (Crédit Agricole). Fund manager: Twenty First Capital (secondary). Transfer agent & broker: Spiko. Auditor: PwC (4 audits/year). Smart-contract auditor: Trail of Bits (Oct 2023).",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-CACEIS",
+        "S-EUTBL-TOB"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-CTRL",
+      "asset": "EUTBL",
+      "section": "custody",
+      "label": "Control surface (public code)",
+      "value": "OpenZeppelin UUPS upgradeable proxy; Permission Manager (7 groups); super-admin multisig (upgrades + permissions); exceptional-operator can pause; daily-operator mints/redeems; oracle-operator publishes NAV; Chainlink CCIP bridge.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-TECH"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-AUDIT",
+      "asset": "EUTBL",
+      "section": "facts",
+      "label": "Smart-contract audit",
+      "value": "Trail of Bits audit (October 2023); report publicly available.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-TOB"
+      ],
+      "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-EUTBL-CT-ONCHAIN",
+      "asset": "EUTBL",
+      "section": "facts",
+      "label": "Contracts confirmed on-chain",
+      "value": "Confirmed by direct on-chain read on 2026-07-01 — each returns name 'Spiko EU T-Bills Money Market Fund', symbol EUTBL, 5 decimals: Ethereum / Polygon / Base 0xa0769f7a8fc65e47de93797b4e21c073c117fc80 and Arbitrum 0xcbeb19549054cc0a6257a77736fc78c367216ce7. On-chain unit supply (VNAV, so value = units × NAV, not 1:1): Arbitrum 280.73M · Base 17.28M · Polygon 47.58M · Ethereum 14.51M units. Upgrades these addresses from aggregator-sourced to on-chain-verified.",
+      "status": "public-primary",
+      "sources": [
+        "S-EUTBL-ONCHAIN"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    }
+  ]
+}

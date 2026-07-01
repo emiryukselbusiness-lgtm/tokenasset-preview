@@ -1,0 +1,275 @@
+{
+  "$schema": "rwa-teardown/sources.v1",
+  "$note": "Source manifest. publicStatus controls whether a source may appear in the public-safe page. Account-gated sources must never carry publicStatus 'public'.",
+  "generated": "2026-06-30",
+  "sources": [
+    {
+      "id": "S-BUIDL-SECFORMD",
+      "title": "SEC Form D / D-A — BlackRock USD Institutional Digital Liquidity Fund Ltd. (CIK 0002013810)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002013810",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BUIDL-001",
+        "C-BUIDL-002",
+        "C-BUIDL-003"
+      ]
+    },
+    {
+      "id": "S-BUIDL-ETHERSCAN",
+      "title": "Etherscan — BUIDL Ethereum Class A proxy 0x7712c34205737192402172409a8f7ccef8aa2aec",
+      "url": "https://etherscan.io/token/0x7712c34205737192402172409a8f7ccef8aa2aec",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BUIDL-CT01"
+      ]
+    },
+    {
+      "id": "S-BUIDL-ARBISCAN",
+      "title": "Arbiscan — BUIDL Arbitrum (ERC1967) 0xa6525ae43edcd03dc08e775774dcabd3bb925872",
+      "url": "https://arbiscan.io/token/0xa6525ae43edcd03dc08e775774dcabd3bb925872",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BUIDL-CT02"
+      ]
+    },
+    {
+      "id": "S-BUIDL-DSTOKEN",
+      "title": "Securitize DSToken / DS Protocol v4 open-source repository",
+      "url": "https://github.com/securitize-io/dstoken",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BUIDL-CTRL01",
+        "C-BUIDL-CTRL02"
+      ]
+    },
+    {
+      "id": "S-BUIDL-HALBORN",
+      "title": "Halborn — Securitize DSToken Security Assessment (0 critical / 0 high; 100% remediated 2025-10-29)",
+      "url": "https://www.halborn.com/audits/securitize/dstoken-e07b34",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BUIDL-AUDIT01"
+      ]
+    },
+    {
+      "id": "S-BUIDL-COINGECKO",
+      "title": "CoinGecko — BUIDL multi-chain contract addresses",
+      "url": "https://www.coingecko.com/en/coins/blackrock-usd-institutional-digital-liquidity-fund",
+      "type": "public-secondary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BUIDL-CT03"
+      ]
+    },
+    {
+      "id": "S-BUIDL-RWAXYZ",
+      "title": "RWA.xyz — BUIDL public asset page (AUM, holders, transfer volume)",
+      "url": "https://app.rwa.xyz/assets/BUIDL",
+      "type": "public-secondary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-29",
+      "claimIds": [
+        "C-BUIDL-AUM-PUB",
+        "C-BUIDL-HOLDERS"
+      ]
+    },
+    {
+      "id": "S-BUIDL-ONCHAIN",
+      "title": "Direct on-chain reads — BUIDL contracts across 9 deployments via public RPC nodes / block explorers (Etherscan, Arbiscan, Optimistic Etherscan, BscScan, SnowScan, PolygonScan, Solscan, Aptos Explorer). Reads: name/symbol/decimals/totalSupply/owner/ERC1967 slots.",
+      "url": "https://etherscan.io/token/0x7712c34205737192402172409a8f7ccef8aa2aec",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-07-01",
+      "claimIds": [
+        "C-BUIDL-ONCHAIN-AUM",
+        "C-BUIDL-CT-ALL",
+        "C-BUIDL-OWNER-ALL",
+        "C-BUIDL-CTRL03",
+        "C-BUIDL-CTRL04"
+      ]
+    },
+    {
+      "id": "S-BUIDL-SECDA",
+      "title": "SEC EDGAR — BUIDL Form D/A (accession 0002004687-25-000001, filed 2025-07-18) and original Form D (0002014390-24-000001, filed 2024-03-18)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002013810&type=D",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-07-01",
+      "claimIds": [
+        "C-BUIDL-SECDA"
+      ]
+    },
+    {
+      "id": "S-WTGXX-497-FY25",
+      "title": "SEC 497 — WisdomTree Digital Trust (FY2025; Nov 2025 rename)",
+      "url": "https://www.sec.gov/Archives/edgar/data/0001859001/000121465925016843/",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-WTGXX-001",
+        "C-WTGXX-002",
+        "C-WTGXX-FEE",
+        "C-WTGXX-OWN",
+        "C-WTGXX-ELIG"
+      ]
+    },
+    {
+      "id": "S-WTGXX-497-FY26",
+      "title": "SEC 497 — WisdomTree Digital Trust (FY2026, Jan 2026)",
+      "url": "https://www.sec.gov/Archives/edgar/data/0001859001/000121465926000312/",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-WTGXX-002"
+      ]
+    },
+    {
+      "id": "S-WTGXX-CONNECT",
+      "title": "WisdomTree Connect — WTGXX product page",
+      "url": "https://www.wisdomtreeconnect.com/digital-funds/money-market/wtgxx",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-WTGXX-OBJ",
+        "C-WTGXX-GAS"
+      ]
+    },
+    {
+      "id": "S-WTGXX-RWAXYZ",
+      "title": "RWA.xyz — WTGXX asset page",
+      "url": "https://app.rwa.xyz/assets/WTGXX",
+      "type": "public-secondary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-WTGXX-AUM",
+        "C-WTGXX-HOLDERS"
+      ]
+    },
+    {
+      "id": "S-BENJI-SEC",
+      "title": "SEC N-1A / 497 — Franklin OnChain U.S. Government Money Fund (CIK 0001786958)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001786958",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BENJI-001",
+        "C-BENJI-OBJ",
+        "C-BENJI-OWN",
+        "C-BENJI-REDEEM"
+      ]
+    },
+    {
+      "id": "S-BENJI-PSUM",
+      "title": "Franklin OnChain prospectus summary (SEC forms-literature)",
+      "url": "https://www.franklintempleton.com/forms-literature/download-preview/9001-PSUM",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BENJI-OBJ"
+      ]
+    },
+    {
+      "id": "S-BENJI-RWAXYZ",
+      "title": "RWA.xyz — BENJI asset page (retail + iBENJI AUM, holders)",
+      "url": "https://app.rwa.xyz/assets/BENJI",
+      "type": "public-secondary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-BENJI-AUM",
+        "C-BENJI-FEE",
+        "C-BENJI-HOLDERS"
+      ]
+    },
+    {
+      "id": "S-EUTBL-SPIKO",
+      "title": "Spiko — EU T-Bills fund page (spiko.io/spiko-euro)",
+      "url": "https://www.spiko.io/spiko-euro",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-EUTBL-001",
+        "C-EUTBL-OBJ",
+        "C-EUTBL-ELIG",
+        "C-EUTBL-REDEEM"
+      ]
+    },
+    {
+      "id": "S-EUTBL-TECH",
+      "title": "Spiko Tech Blog — Smart Contracts architecture",
+      "url": "https://tech.spiko.io/posts/spiko-smart-contracts/",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-EUTBL-OWN",
+        "C-EUTBL-CTRL"
+      ]
+    },
+    {
+      "id": "S-EUTBL-TOB",
+      "title": "Trail of Bits — Spiko smart-contract audit (October 2023)",
+      "url": "https://tech.spiko.io/posts/spiko-smart-contracts/",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-EUTBL-AUDIT"
+      ]
+    },
+    {
+      "id": "S-EUTBL-CACEIS",
+      "title": "CACEIS press release — blockchain subscription processing (Oct 2024)",
+      "url": "https://www.caceis.com/",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-EUTBL-CUST",
+        "C-EUTBL-OWN"
+      ]
+    },
+    {
+      "id": "S-EUTBL-ONCHAIN",
+      "title": "Direct on-chain reads — EUTBL contracts on Ethereum, Polygon, Base (0xa0769f7a…c117fc80) and Arbitrum (0xcbeb1954…16ce7) via public RPC nodes. Reads: name/symbol/decimals/totalSupply.",
+      "url": "https://etherscan.io/token/0xa0769f7a8fc65e47de93797b4e21c073c117fc80",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-07-01",
+      "claimIds": [
+        "C-EUTBL-CT-ONCHAIN"
+      ]
+    },
+    {
+      "id": "S-EUTBL-RWAXYZ",
+      "title": "RWA.xyz — EUTBL asset page (AUM, holders, APY)",
+      "url": "https://app.rwa.xyz/assets/EUTBL",
+      "type": "public-secondary",
+      "publicStatus": "public",
+      "dateChecked": "2026-06-30",
+      "claimIds": [
+        "C-EUTBL-AUM",
+        "C-EUTBL-APY",
+        "C-EUTBL-HOLDERS"
+      ]
+    }
+  ]
+}

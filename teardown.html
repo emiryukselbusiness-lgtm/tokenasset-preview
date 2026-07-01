@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teardown — Source-Backed Tokenized Fund Diligence</title>
+  <meta name="description" content="Interactive, source-backed diligence teardown of a tokenized real-world asset. Every claim labeled by evidence type and tied to a dated source. No scores, no ratings, no investment advice." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://example.com/rwa-teardown/teardown.html" id="canonical-link" />
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Tokenized Fund Diligence Teardown" id="og-title" />
+  <meta property="og:description" content="Source-backed diligence teardown. Every claim labeled by evidence type. No scores, no advice." />
+  <meta property="og:url" content="https://example.com/rwa-teardown/teardown.html" id="og-url" />
+  <meta property="og:site_name" content="TokenAsset" />
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tokenized Fund Diligence Teardown" id="tw-title" />
+  <meta name="twitter:description" content="Source-backed diligence teardown. Evidence-labeled. No scores, no advice." />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Structured data is also available as a static file: structured-data.json -->
+  <script type="application/ld+json" id="ld-json"></script>
+</head>
+<body class="public-safe">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- 1. TOP ALERT BAND -->
+  <div class="alert-band" id="alert-band" role="region" aria-label="Document status and disclaimer">
+    <div class="wrap alert-inner">
+      <span class="alert-status" id="alert-status">Loading…</span>
+      <span class="alert-text">Independent diligence research — not investment, legal, or tax advice. No scores, ratings, or recommendations. Every claim is source-labeled.</span>
+    </div>
+  </div>
+
+  <!-- MASTHEAD -->
+  <header class="masthead" role="banner">
+    <div class="wrap masthead-inner">
+      <a class="brand" href="index.html" aria-label="TokenAsset — home">
+        <span class="brand-mark" aria-hidden="true">◧</span>
+        <span class="brand-name">Token<strong>Asset</strong></span>
+      </a>
+
+      <div class="toolbar" role="toolbar" aria-label="Page controls">
+        <a class="ctl btn" href="index.html" title="Back to overview">Home</a>
+        <label class="ctl">
+          <span class="ctl-label">Asset</span>
+          <select id="asset-select" aria-label="Select asset"></select>
+        </label>
+        <button class="ctl btn" id="public-safe-toggle" aria-pressed="true" title="Hide private / account-gated sections">Public-safe mode</button>
+        <button class="ctl btn" id="unverified-toggle" aria-pressed="false" title="Show only unverified / missing items">Unverified only</button>
+        <button class="ctl btn" id="theme-toggle" aria-pressed="false" title="Toggle light/dark">Dark</button>
+        <button class="ctl btn" id="print-btn" title="Print or save as PDF">Print / PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout wrap">
+    <!-- STICKY SECTION NAV -->
+    <nav class="rail" id="rail" aria-label="Section navigation">
+      <p class="rail-title">Sections</p>
+      <ol id="rail-list"></ol>
+      <div class="legend" aria-label="Evidence status legend">
+        <p class="rail-title">Evidence legend</p>
+        <ul id="legend-list"></ul>
+      </div>
+    </nav>
+
+    <main id="main" class="content" tabindex="-1">
+
+      <!-- HERO / EXEC SUMMARY -->
+      <section id="overview" class="card hero" aria-labelledby="overview-h">
+        <p class="eyebrow"><span class="num">00</span> Teardown</p>
+        <h1 id="overview-h"></h1>
+        <p class="lede" id="overview-lede"></p>
+        <dl class="hero-meta" id="hero-meta"></dl>
+      </section>
+
+      <!-- 2. ASSET INTELLIGENCE TAPE -->
+      <section id="tape" class="card" aria-labelledby="tape-h">
+        <p class="eyebrow"><span class="num">01</span> Tracked assets</p>
+        <h2 id="tape-h">Asset Intelligence Tape</h2>
+        <p class="section-note">Dated, sourced figures only. No live price simulation. Unverified figures are labeled as such.</p>
+        <div class="tape" id="tape-strip" role="list"></div>
+      </section>
+
+      <!-- 3. EXECUTIVE SNAPSHOT -->
+      <section id="snapshot" class="card" aria-labelledby="snapshot-h">
+        <p class="eyebrow"><span class="num">02</span> Snapshot</p>
+        <h2 id="snapshot-h">Executive Snapshot</h2>
+        <div class="snapshot-grid" id="snapshot-grid"></div>
+        <div class="gaps" id="snapshot-gaps"></div>
+      </section>
+
+      <!-- 4. CORE QUESTION -->
+      <section id="core" class="card" aria-labelledby="core-h">
+        <p class="eyebrow"><span class="num">03</span> The core question</p>
+        <h2 id="core-h"></h2>
+        <p class="lede" id="core-why"></p>
+        <div class="table-scroll">
+          <table class="data-table" id="core-table">
+            <thead><tr><th scope="col">Asset</th><th scope="col">Who controls the authoritative record?</th><th scope="col">Evidence</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TOOLS: search + filter -->
+      <section id="explore" class="card" aria-labelledby="explore-h">
+        <p class="eyebrow"><span class="num">04</span> Explore the evidence</p>
+        <h2 id="explore-h">Search &amp; Filter Claims</h2>
+        <div class="filters">
+          <label class="field">
+            <span class="ctl-label">Search claims</span>
+            <input type="search" id="claim-search" placeholder="e.g. redemption, custodian, freeze…" aria-label="Search claims" />
+          </label>
+          <label class="field">
+            <span class="ctl-label">Evidence type</span>
+            <select id="evidence-filter" aria-label="Filter by evidence type">
+              <option value="all">All evidence types</option>
+              <option value="public-primary">Public primary</option>
+              <option value="public-secondary">Public secondary</option>
+              <option value="official-gated">Official gated / account-source</option>
+              <option value="internal-lead">Internal lead</option>
+              <option value="unverified">Unverified</option>
+              <option value="conflict">Conflict</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <!-- 5. VERIFIED PUBLIC FACTS -->
+      <section id="facts" class="card claims-section" data-section="facts" aria-labelledby="facts-h">
+        <p class="eyebrow"><span class="num">05</span> Verified facts</p>
+        <h2 id="facts-h">Verified Public Facts</h2>
+        <div class="claim-list"></div>
+      </section>
+
+      <!-- 6. OFFICIAL GATED / PRIVATE-ONLY -->
+      <section id="gated" class="card claims-section private-section" data-section="gated" aria-labelledby="gated-h">
+        <p class="eyebrow private-eyebrow"><span class="num">06</span> Private · account-source</p>
+        <h2 id="gated-h">Official Gated / Private-Only Evidence</h2>
+        <p class="private-banner">Official gated / account-source evidence; public redistribution permission not established. Hidden in public-safe mode.</p>
+        <div class="claim-list"></div>
+      </section>
+
+      <!-- 7. OPEN DILIGENCE QUESTIONS -->
+      <section id="missing" class="card" data-section="missing" aria-labelledby="missing-h">
+        <p class="eyebrow"><span class="num">07</span> Open items</p>
+        <h2 id="missing-h">Open Diligence Questions — What a Serious Reviewer Should Request Next</h2>
+        <p class="section-note">This is the disciplined half of diligence: the exact documents and confirmations a serious buyer should obtain before relying on this asset. Knowing precisely what to ask for is the value. Documentation-coverage view only — not a risk or quality score.</p>
+        <div class="coverage" id="coverage"></div>
+        <ul class="checklist" id="missing-list"></ul>
+      </section>
+
+      <!-- 8. OWNERSHIP RECORD -->
+      <section id="ownership" class="card claims-section" data-section="ownership" aria-labelledby="ownership-h">
+        <p class="eyebrow"><span class="num">08</span> Ownership</p>
+        <h2 id="ownership-h">Ownership Record Analysis</h2>
+        <p class="section-note">Transfer agent vs. blockchain vs. fund register — who controls the authoritative record.</p>
+        <div class="claim-list"></div>
+      </section>
+
+      <!-- 9. REDEMPTION / LIQUIDITY -->
+      <section id="redemption" class="card claims-section" data-section="redemption" aria-labelledby="redemption-h">
+        <p class="eyebrow"><span class="num">09</span> Liquidity</p>
+        <h2 id="redemption-h">Redemption &amp; Liquidity Mechanics</h2>
+        <div class="claim-list"></div>
+      </section>
+
+      <!-- 10. CUSTODY / ADMIN / AUDITOR -->
+      <section id="custody" class="card claims-section" data-section="custody" aria-labelledby="custody-h">
+        <p class="eyebrow"><span class="num">10</span> Service providers</p>
+        <h2 id="custody-h">Custody, Administrator &amp; Auditor</h2>
+        <div class="claim-list"></div>
+      </section>
+
+      <!-- 11. CONTRACT / TECH MAP -->
+      <section id="contracts" class="card" aria-labelledby="contracts-h">
+        <p class="eyebrow"><span class="num">11</span> Technology</p>
+        <h2 id="contracts-h">Contract &amp; Technology Map</h2>
+        <label class="field inline">
+          <span class="ctl-label">Chain</span>
+          <select id="chain-filter" aria-label="Filter contracts by chain"><option value="all">All chains</option></select>
+        </label>
+        <div class="table-scroll">
+          <table class="data-table" id="contracts-table">
+            <thead><tr>
+              <th scope="col">Chain</th><th scope="col">Address</th><th scope="col">Standard</th>
+              <th scope="col">Proxy</th><th scope="col">Controls</th><th scope="col">Role holders</th><th scope="col">Evidence</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12. SOURCE QUALITY -->
+      <section id="quality" class="card" aria-labelledby="quality-h">
+        <p class="eyebrow"><span class="num">12</span> Source quality</p>
+        <h2 id="quality-h">Source Quality Overview</h2>
+        <p class="section-note">Coverage of claims by evidence type for the selected asset. A coverage view, not a score.</p>
+        <div class="quality-bars" id="quality-bars"></div>
+      </section>
+
+      <!-- 13. REVIEWER QUESTIONS -->
+      <section id="questions" class="card" aria-labelledby="questions-h">
+        <p class="eyebrow"><span class="num">13</span> For reviewers</p>
+        <h2 id="questions-h">Questions for Serious Reviewers</h2>
+        <p class="section-note">Practical diligence questions — copy any to use in a feedback or sales call.</p>
+        <ul class="question-list" id="question-list"></ul>
+      </section>
+
+      <!-- 14. EVIDENCE APPENDIX -->
+      <section id="appendix" class="card" aria-labelledby="appendix-h">
+        <p class="eyebrow"><span class="num">14</span> Appendix</p>
+        <h2 id="appendix-h">Evidence Appendix</h2>
+        <label class="field">
+          <span class="ctl-label">Search sources</span>
+          <input type="search" id="source-search" placeholder="Search source titles, types, IDs…" aria-label="Search sources" />
+        </label>
+        <div id="appendix-list" class="appendix-list"></div>
+      </section>
+
+      <!-- 15. FEEDBACK ASK -->
+      <section id="feedback" class="card feedback" aria-labelledby="feedback-h">
+        <p class="eyebrow"><span class="num">15</span> Feedback</p>
+        <h2 id="feedback-h">Would this help you diligence a tokenized asset?</h2>
+        <ul class="feedback-questions">
+          <li>Would this format help you evaluate, compare, or diligence a tokenized real-world asset?</li>
+          <li>What is missing that you would need before depending on it?</li>
+          <li>Would you pay for this on an asset you own, evaluate, or integrate?</li>
+        </ul>
+      </section>
+
+      <!-- PLAIN-LANGUAGE ANSWER BLOCK (for AI agents & quick scan) -->
+      <section id="answers" class="card answers" aria-labelledby="answers-h">
+        <h2 id="answers-h">Quick Answers</h2>
+        <div class="qa" id="qa-block"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p id="footer-disclaimer"></p>
+        <p class="muted">Generated locally from <code>data/assets.json</code>, <code>data/claims.json</code>, <code>data/sources.json</code>. Machine-readable companions: <code>llms.txt</code>, <code>structured-data.json</code>, <code>sitemap.xml</code>.</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>

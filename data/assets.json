@@ -1,0 +1,585 @@
+{
+  "$schema": "rwa-teardown/assets.v1",
+  "$note": "Asset registry. 'publicStatus' = public-safe | private-feedback. Tape/metric values must be dated and sourced; never synthesize live price movement. Contracts and checklists are per asset.",
+  "generated": "2026-06-30",
+  "publisher": "Independent RWA Diligence (working name) — independent, source-backed diligence & monitoring",
+  "disclaimer": "Independent diligence research. Not investment advice, legal advice, or tax advice. No scores, ratings, grades, rankings, or buy/sell/hold recommendations. Every claim carries a source/status label. Missing facts are marked: Unverified - additional primary source required.",
+  "assets": [
+    {
+      "id": "BUIDL",
+      "ticker": "BUIDL",
+      "name": "BlackRock USD Institutional Digital Liquidity Fund",
+      "issuer": "BlackRock / Securitize",
+      "assetType": "Tokenized U.S. Treasury / cash money fund",
+      "wrapper": "Private fund — SEC 3(c)(7) exemption",
+      "navType": "CNAV ($1.00 target)",
+      "eligibility": "Qualified/institutional investors (public threshold unconfirmed)",
+      "chains": [
+        "Ethereum",
+        "Solana",
+        "Avalanche",
+        "BNB",
+        "Optimism",
+        "Arbitrum",
+        "Aptos",
+        "Polygon"
+      ],
+      "publicStatus": "public-safe",
+      "statusNote": "Private-feedback draft. Public-safe sections use only public sources (SEC, block explorers, Securitize open-source code, public Halborn audit). Account-source AUM/NAV/holdings are official gated and excluded from the public-safe page.",
+      "tape": {
+        "aum": {
+          "value": "$2.2486B (on-chain totalSupply)",
+          "date": "2026-07-01",
+          "sourceId": "S-BUIDL-ONCHAIN",
+          "status": "public-primary",
+          "publicSafe": true
+        },
+        "change30d": {
+          "value": "−7.94% (RWA.xyz, 2026-06-29)",
+          "date": "2026-06-29",
+          "sourceId": "S-BUIDL-RWAXYZ",
+          "status": "public-secondary",
+          "publicSafe": true
+        },
+        "yield": {
+          "value": "Unverified - additional primary source required",
+          "date": "2026-06-30",
+          "sourceId": null,
+          "status": "unverified",
+          "publicSafe": true
+        }
+      },
+      "ownershipRecord": {
+        "answer": "Unverified",
+        "detail": "Not publicly disclosed which record legally controls ownership.",
+        "status": "unverified"
+      },
+      "keyGaps": [
+        "Private Offering Memorandum, Articles, fact sheet, pitchbook",
+        "Redemption minimum, fees, gates, suspension rights",
+        "Authoritative ownership-record disclosure",
+        "Issuer / Transfer-Agent registry role holders (owner()/upgrade key confirmed on-chain 2026-07-01; DS Protocol registry roles still open)",
+        "Whether the single owner() EOA is backed by an off-chain multisig / MPC custody"
+      ],
+      "contracts": [
+        {
+          "chain": "Ethereum (Class A)",
+          "address": "0x7712c34205737192402172409a8f7ccef8aa2aec",
+          "standard": "ERC-20 (DSToken)",
+          "proxy": "Custom (setOwner/setTarget)",
+          "controls": "mint · burn · seize · lock · pause · freeze · allowlist · upgrade",
+          "roleHolders": "owner() = 0xe01605f6b6dc593b7d2917f4a0940db2a625b09e (EOA, no multisig code) — on-chain 2026-07-01. Issuer/Transfer-Agent roles: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ETHERSCAN"
+        },
+        {
+          "chain": "Ethereum (BUIDL-I)",
+          "address": "0x6a9DA2D710BB9B700acde7Cb81F10F1fF8C89041",
+          "standard": "ERC-20 (DSToken) · 6dp · symbol BUIDL-I",
+          "proxy": "ERC1967/UUPS (impl 0x9e2693f5…)",
+          "controls": "mint · burn · seize · lock · pause · freeze · allowlist · upgrade",
+          "roleHolders": "owner() = 0xe016…b09e (EOA) — on-chain 2026-07-01. Supply $831.01M.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ONCHAIN"
+        },
+        {
+          "chain": "Arbitrum One",
+          "address": "0xa6525ae43edcd03dc08e775774dcabd3bb925872",
+          "standard": "ERC-20 (DSToken)",
+          "proxy": "ERC1967 / UUPS-style (impl 0xdbf6db49…c0f7, admin slot empty)",
+          "controls": "mint · burn · seize · lock · pause · freeze · allowlist · upgrade",
+          "roleHolders": "Impl confirmed on-chain 2026-07-01; upgrade auth in implementation (UUPS). Role holders: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ARBISCAN"
+        },
+        {
+          "chain": "Optimism",
+          "address": "0xa1cdab15bba75a80df4089cafba013e376957cf5",
+          "standard": "ERC-20 (DSToken) · 6dp",
+          "proxy": "ERC1967/UUPS (impl 0xca91fa16…)",
+          "controls": "mint · burn · seize · lock · pause · freeze · allowlist · upgrade",
+          "roleHolders": "owner() = 0xe016…b09e (EOA) — on-chain 2026-07-01. Supply $26.26M.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ONCHAIN"
+        },
+        {
+          "chain": "BNB Chain",
+          "address": "0x2d5bdc96d9c8aabbdb38c9a27398513e7e5ef84f",
+          "standard": "BEP-20 (DSToken) · 6dp",
+          "proxy": "ERC1967/UUPS (impl 0xe478ae70…)",
+          "controls": "mint · burn · seize · lock · pause · freeze · allowlist · upgrade",
+          "roleHolders": "owner() = 0xe016…b09e (EOA) — on-chain 2026-07-01. Supply $110.55M.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ONCHAIN"
+        },
+        {
+          "chain": "Avalanche C-Chain",
+          "address": "0x53fc82f14f009009b440a706e31c9021e1196a2f",
+          "standard": "ERC-20 (DSToken) · 6dp",
+          "proxy": "ERC1967/UUPS (impl 0xf93667d0…)",
+          "controls": "mint · burn · seize · lock · pause · freeze · allowlist · upgrade",
+          "roleHolders": "owner() = 0xe016…b09e (EOA) — on-chain 2026-07-01. Supply $402.37M.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ONCHAIN"
+        },
+        {
+          "chain": "Polygon PoS",
+          "address": "0x2893ef551b6dd69f661ac00f11d93e5dc5dc0e99",
+          "standard": "ERC-20 (DSToken) · 6dp",
+          "proxy": "ERC1967/UUPS (impl 0x20c4c519…)",
+          "controls": "mint · burn · seize · lock · pause · freeze · allowlist · upgrade",
+          "roleHolders": "owner() = 0xe016…b09e (EOA) — on-chain 2026-07-01. Supply $13.93M.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ONCHAIN"
+        },
+        {
+          "chain": "Solana",
+          "address": "GyWgeqpy5GueU2YbkE8xqUeVEokCMMCEeUrfbtMw6phr",
+          "standard": "SPL Token · 6dp",
+          "proxy": "N/A (SPL)",
+          "controls": "SPL mint/freeze authority (verify holders)",
+          "roleHolders": "Supply $636.35M confirmed on-chain 2026-07-01. Mint/freeze authority: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ONCHAIN"
+        },
+        {
+          "chain": "Aptos",
+          "address": "0x50038be55be5b964cfa32cf128b5cf05f123959f286b4cc02b86cafd48945f89",
+          "standard": "Aptos FA · 6dp",
+          "proxy": "N/A (Fungible Asset)",
+          "controls": "FA mint/transfer refs (verify holders)",
+          "roleHolders": "Supply $16.10M confirmed on-chain 2026-07-01. Ref holders: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-BUIDL-ONCHAIN"
+        }
+      ],
+      "missing": [
+        {
+          "item": "Private Offering Memorandum / Articles",
+          "category": "Legal terms",
+          "priority": "high"
+        },
+        {
+          "item": "Redemption gates, suspension rights, minimum, settlement",
+          "category": "Redemption",
+          "priority": "high"
+        },
+        {
+          "item": "Authoritative ownership-record disclosure",
+          "category": "Legal terms",
+          "priority": "high"
+        },
+        {
+          "item": "Fee schedule (primary fund-doc proof)",
+          "category": "Legal terms",
+          "priority": "high"
+        },
+        {
+          "item": "Issuer / Transfer-Agent registry role holders (owner() confirmed on-chain; registry roles pending)",
+          "category": "Contract controls",
+          "priority": "medium"
+        },
+        {
+          "item": "Per-chain proxy admin / multisig config",
+          "category": "Contract controls",
+          "priority": "medium"
+        },
+        {
+          "item": "Off-chain backing of the owner() EOA (multisig / MPC custody) — single EOA controls all EVM contracts",
+          "category": "Contract controls",
+          "priority": "medium"
+        }
+      ]
+    },
+    {
+      "id": "WTGXX",
+      "ticker": "WTGXX",
+      "name": "WisdomTree Treasury Money Market Digital Fund",
+      "issuer": "WisdomTree Digital Management",
+      "assetType": "Tokenized U.S. government money market fund",
+      "wrapper": "Registered '40-Act CNAV mutual fund",
+      "navType": "CNAV ($1.00)",
+      "eligibility": "U.S. persons only · retail (no accreditation) · $1 minimum",
+      "chains": [
+        "Stellar",
+        "Ethereum",
+        "Arbitrum",
+        "Avalanche",
+        "Base",
+        "Solana",
+        "Plume",
+        "Optimism"
+      ],
+      "publicStatus": "public-safe",
+      "statusNote": "Public-safe. Built entirely from SEC 497 filings, WisdomTree Connect, BNY Mellon release, and RWA.xyz. Numeric scores intentionally blank.",
+      "tape": {
+        "aum": {
+          "value": "$764.3M",
+          "date": "2026-06-30",
+          "sourceId": "S-WTGXX-RWAXYZ",
+          "status": "public-secondary",
+          "publicSafe": true
+        },
+        "change30d": {
+          "value": "−16.03%",
+          "date": "2026-06-30",
+          "sourceId": "S-WTGXX-RWAXYZ",
+          "status": "public-secondary",
+          "publicSafe": true
+        },
+        "yield": {
+          "value": "Unverified - additional primary source required",
+          "date": "2026-06-30",
+          "sourceId": null,
+          "status": "unverified",
+          "publicSafe": true
+        }
+      },
+      "ownershipRecord": {
+        "answer": "Transfer-agent book-entry",
+        "detail": "Book-entry is authoritative; on-chain token supplementary, reconciled daily; TA record prevails.",
+        "status": "public-primary"
+      },
+      "keyGaps": [
+        "Complete holdings disclosure",
+        "Exact redemption cut-off time and gate language",
+        "Per-chain contract addresses",
+        "Smart-contract audit (not found in public sources)"
+      ],
+      "contracts": [
+        {
+          "chain": "Stellar (primary)",
+          "address": "Unverified - additional primary source required",
+          "standard": "Stellar asset",
+          "proxy": "N/A",
+          "controls": "Unverified",
+          "roleHolders": "Unverified - additional primary source required",
+          "status": "unverified",
+          "sourceId": null
+        },
+        {
+          "chain": "Ethereum",
+          "address": "Unverified - additional primary source required",
+          "standard": "ERC-20",
+          "proxy": "Unverified",
+          "controls": "Unverified",
+          "roleHolders": "Unverified - additional primary source required",
+          "status": "unverified",
+          "sourceId": null
+        }
+      ],
+      "missing": [
+        {
+          "item": "Complete holdings disclosure",
+          "category": "Holdings",
+          "priority": "high"
+        },
+        {
+          "item": "Transfer agent agreement",
+          "category": "Legal terms",
+          "priority": "high"
+        },
+        {
+          "item": "Exact redemption cut-off time",
+          "category": "Redemption",
+          "priority": "medium"
+        },
+        {
+          "item": "Per-chain contract addresses",
+          "category": "Contract controls",
+          "priority": "medium"
+        },
+        {
+          "item": "Redemption gate / suspension language",
+          "category": "Redemption",
+          "priority": "medium"
+        },
+        {
+          "item": "AUM −16% / 30d cause",
+          "category": "Holdings",
+          "priority": "low"
+        }
+      ]
+    },
+    {
+      "id": "BENJI",
+      "ticker": "BENJI",
+      "name": "Franklin OnChain U.S. Government Money Fund (FOBXX)",
+      "issuer": "Franklin Templeton / Benji Investments",
+      "assetType": "Tokenized U.S. government money fund",
+      "wrapper": "Registered '40-Act mutual fund (retail) · iBENJI BVI (institutional, distinct)",
+      "navType": "CNAV ($1.00)",
+      "eligibility": "U.S. retail via KYC (Benji app) · chain minimums $100–$5M",
+      "chains": [
+        "Stellar",
+        "Polygon",
+        "Avalanche",
+        "Aptos",
+        "Arbitrum",
+        "Base",
+        "Ethereum",
+        "Solana"
+      ],
+      "publicStatus": "public-safe",
+      "statusNote": "Public-safe. SEC N-1A / 497 sourced. Retail FOBXX and institutional iBENJI are distinct products and must not be conflated.",
+      "tape": {
+        "aum": {
+          "value": "~$808M retail · ~$1.60B iBENJI",
+          "date": "2026-06-30",
+          "sourceId": "S-BENJI-RWAXYZ",
+          "status": "public-secondary",
+          "publicSafe": true
+        },
+        "change30d": {
+          "value": "Unverified - additional primary source required",
+          "date": "2026-06-30",
+          "sourceId": null,
+          "status": "unverified",
+          "publicSafe": true
+        },
+        "yield": {
+          "value": "Unverified - additional primary source required",
+          "date": "2026-06-30",
+          "sourceId": null,
+          "status": "unverified",
+          "publicSafe": true
+        }
+      },
+      "ownershipRecord": {
+        "answer": "Transfer agent (hybrid)",
+        "detail": "Benji transfer agent holds official record; blockchain framed as 'part of the official system of record'. TA prevails.",
+        "status": "public-primary"
+      },
+      "keyGaps": [
+        "Stellar minimum investment (exact figure)",
+        "Sub-adviser and auditor identity",
+        "Full holdings disclosure",
+        "Smart-contract audit report"
+      ],
+      "contracts": [
+        {
+          "chain": "Stellar (primary)",
+          "address": "Unverified - additional primary source required",
+          "standard": "Stellar asset",
+          "proxy": "N/A",
+          "controls": "Permissioned (KYC allowlist)",
+          "roleHolders": "Unverified - additional primary source required",
+          "status": "unverified",
+          "sourceId": null
+        },
+        {
+          "chain": "Ethereum",
+          "address": "Unverified - additional primary source required",
+          "standard": "ERC-20",
+          "proxy": "Unverified",
+          "controls": "Permissioned (KYC allowlist)",
+          "roleHolders": "Unverified - additional primary source required",
+          "status": "unverified",
+          "sourceId": null
+        }
+      ],
+      "missing": [
+        {
+          "item": "Stellar minimum investment (exact figure)",
+          "category": "Legal terms",
+          "priority": "high"
+        },
+        {
+          "item": "Sub-adviser identity",
+          "category": "Custody/admin",
+          "priority": "high"
+        },
+        {
+          "item": "Auditor identity",
+          "category": "Custody/admin",
+          "priority": "high"
+        },
+        {
+          "item": "Full holdings disclosure",
+          "category": "Holdings",
+          "priority": "high"
+        },
+        {
+          "item": "Total expense ratio (exact %)",
+          "category": "Legal terms",
+          "priority": "medium"
+        },
+        {
+          "item": "Per-chain contract addresses",
+          "category": "Contract controls",
+          "priority": "medium"
+        }
+      ]
+    },
+    {
+      "id": "EUTBL",
+      "ticker": "EUTBL",
+      "name": "Spiko EU T-Bills Money Market Fund",
+      "issuer": "Spiko / Twenty First Capital",
+      "assetType": "Tokenized EU sovereign T-bill money market fund",
+      "wrapper": "UCITS VNAV MMF (Spiko SICAV) — AMF regulated",
+      "navType": "VNAV (price accretes; ~€1.20/unit)",
+      "eligibility": "Non-U.S. investors only · retail + institutional · €1,000 minimum",
+      "chains": [
+        "Ethereum",
+        "Polygon",
+        "Base",
+        "Etherlink",
+        "Arbitrum",
+        "Stellar",
+        "Starknet"
+      ],
+      "publicStatus": "public-safe",
+      "statusNote": "Public-safe. UCITS docs, AMF registration, CACEIS release, Spiko tech blog, Trail of Bits audit. The blockchain is the primary share registry.",
+      "tape": {
+        "aum": {
+          "value": "~$929.4M (≈€862M)",
+          "date": "2026-06-30",
+          "sourceId": "S-EUTBL-RWAXYZ",
+          "status": "public-secondary",
+          "publicSafe": true
+        },
+        "change30d": {
+          "value": "Unverified - additional primary source required",
+          "date": "2026-06-30",
+          "sourceId": null,
+          "status": "unverified",
+          "publicSafe": true
+        },
+        "yield": {
+          "value": "7-day APY 2.14% · 30-day APY 1.99%",
+          "date": "2026-06-30",
+          "sourceId": "S-EUTBL-RWAXYZ",
+          "status": "public-secondary",
+          "publicSafe": true
+        }
+      },
+      "ownershipRecord": {
+        "answer": "Blockchain is the registry",
+        "detail": "Public blockchain IS the primary share registry (bypasses CSD); each token is the legal unit.",
+        "status": "public-primary"
+      },
+      "keyGaps": [
+        "Full UCITS prospectus text (PDF fetch failed)",
+        "Stellar & Starknet contract addresses",
+        "Super-admin multisig address",
+        "Holdings disclosure detail"
+      ],
+      "contracts": [
+        {
+          "chain": "Ethereum",
+          "address": "0xa0769f7a8fc65e47de93797b4e21c073c117fc80",
+          "standard": "ERC-20 · 5dp · symbol EUTBL",
+          "proxy": "UUPS (upgradeable)",
+          "controls": "pause · mint · burn · NAV oracle · allowlist · upgrade",
+          "roleHolders": "Confirmed on-chain 2026-07-01 (14.51M units). Super-admin multisig address: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-EUTBL-ONCHAIN"
+        },
+        {
+          "chain": "Polygon",
+          "address": "0xa0769f7a8fc65e47de93797b4e21c073c117fc80",
+          "standard": "ERC-20 · 5dp · symbol EUTBL",
+          "proxy": "UUPS (upgradeable)",
+          "controls": "pause · mint · burn · NAV oracle · allowlist · upgrade",
+          "roleHolders": "Confirmed on-chain 2026-07-01 (47.58M units). Super-admin multisig address: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-EUTBL-ONCHAIN"
+        },
+        {
+          "chain": "Base",
+          "address": "0xa0769f7a8fc65e47de93797b4e21c073c117fc80",
+          "standard": "ERC-20 · 5dp · symbol EUTBL",
+          "proxy": "UUPS (upgradeable)",
+          "controls": "pause · mint · burn · NAV oracle · allowlist · upgrade",
+          "roleHolders": "Confirmed on-chain 2026-07-01 (17.28M units). Super-admin multisig address: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-EUTBL-ONCHAIN"
+        },
+        {
+          "chain": "Arbitrum",
+          "address": "0xcbeb19549054cc0a6257a77736fc78c367216ce7",
+          "standard": "ERC-20 · 5dp · symbol EUTBL",
+          "proxy": "UUPS (upgradeable)",
+          "controls": "pause · mint · burn · NAV oracle · allowlist · upgrade",
+          "roleHolders": "Confirmed on-chain 2026-07-01 (280.73M units). Super-admin multisig address: Unverified.",
+          "status": "public-primary",
+          "sourceId": "S-EUTBL-ONCHAIN"
+        },
+        {
+          "chain": "Stellar",
+          "address": "Unverified - additional primary source required",
+          "standard": "Stellar asset",
+          "proxy": "N/A",
+          "controls": "Permissioned (allowlist)",
+          "roleHolders": "Unverified - additional primary source required",
+          "status": "unverified",
+          "sourceId": null
+        }
+      ],
+      "missing": [
+        {
+          "item": "Full UCITS prospectus text",
+          "category": "Legal terms",
+          "priority": "high"
+        },
+        {
+          "item": "Holdings disclosure detail",
+          "category": "Holdings",
+          "priority": "high"
+        },
+        {
+          "item": "Stellar & Starknet contract addresses",
+          "category": "Contract controls",
+          "priority": "medium"
+        },
+        {
+          "item": "Super-admin multisig address",
+          "category": "Contract controls",
+          "priority": "medium"
+        },
+        {
+          "item": "ISIN for EUTBL sub-fund",
+          "category": "Legal terms",
+          "priority": "medium"
+        }
+      ]
+    }
+  ],
+  "coreQuestion": {
+    "question": "If the blockchain record and the fund's official books disagree, which legally controls ownership?",
+    "why": "For a tokenized fund this is the single most consequential diligence question. It determines what the token legally is, what happens in a fork/exploit/freeze, and whether a holder owns a share or a claim. The four funds below answer it four different ways — and one does not answer it publicly at all.",
+    "rows": [
+      {
+        "asset": "EUTBL",
+        "answer": "Blockchain IS the share registry (bypasses the CSD); each token is the legal unit.",
+        "status": "public-primary"
+      },
+      {
+        "asset": "BENJI",
+        "answer": "Transfer agent holds the official record; blockchain framed as 'part of the official system of record' (hybrid). TA prevails.",
+        "status": "public-primary"
+      },
+      {
+        "asset": "WTGXX",
+        "answer": "Transfer-agent book-entry is authoritative; on-chain token supplementary, reconciled daily; TA prevails.",
+        "status": "public-primary"
+      },
+      {
+        "asset": "BUIDL",
+        "answer": "Not publicly disclosed which record legally controls ownership.",
+        "status": "unverified"
+      }
+    ]
+  },
+  "reviewerQuestions": [
+    "Which record legally controls ownership if the chain and the fund's books disagree?",
+    "What are the exact redemption cut-off times, minimums, fees, gates, and suspension rights?",
+    "Who holds the Master / Issuer / Transfer-Agent (mint, burn, seize, freeze) keys, and under what multisig threshold?",
+    "Can my specific holding be seized or frozen, and under what documented conditions?",
+    "Is the smart-contract framework audit the same as a review of this fund's live key custody and deployment parameters?",
+    "Where is the authoritative, dated holdings file, and how often is it refreshed?",
+    "What primary fund document confirms the fee schedule (not an aggregator)?",
+    "For VNAV funds, how is accretion handled at redemption versus a fixed-NAV dividend model?"
+  ]
+}

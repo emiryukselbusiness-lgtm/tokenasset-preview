@@ -1,0 +1,40 @@
+{
+  "@context": "https://schema.org",
+  "@type": ["ResearchProject", "WebSite"],
+  "name": "TokenAsset",
+  "description": "Independent, source-backed diligence and monitoring of tokenized real-world assets. Every claim is labeled by evidence type and tied to a dated source. No scores, ratings, or recommendations. Not investment, legal, or tax advice.",
+  "url": "https://example.com/rwa-teardown/",
+  "inLanguage": "en",
+  "publisher": { "@type": "Organization", "name": "TokenAsset" },
+  "dataset": [
+    {
+      "@type": "Dataset",
+      "name": "BUIDL diligence teardown",
+      "description": "Source-labeled diligence teardown of the BlackRock USD Institutional Digital Liquidity Fund (BUIDL). Private-feedback; public-safe sections use only public sources.",
+      "creativeWorkStatus": "private-feedback",
+      "keywords": ["tokenized real-world assets", "RWA", "diligence", "BUIDL", "BlackRock", "Securitize"]
+    },
+    {
+      "@type": "Dataset",
+      "name": "WTGXX diligence teardown",
+      "description": "Source-labeled diligence teardown of the WisdomTree Treasury Money Market Digital Fund (WTGXX). Public-safe.",
+      "creativeWorkStatus": "public-safe",
+      "keywords": ["tokenized real-world assets", "RWA", "diligence", "WTGXX", "WisdomTree"]
+    },
+    {
+      "@type": "Dataset",
+      "name": "BENJI / FOBXX diligence teardown",
+      "description": "Source-labeled diligence teardown of the Franklin OnChain U.S. Government Money Fund (FOBXX / BENJI). Public-safe.",
+      "creativeWorkStatus": "public-safe",
+      "keywords": ["tokenized real-world assets", "RWA", "diligence", "BENJI", "FOBXX", "Franklin Templeton"]
+    },
+    {
+      "@type": "Dataset",
+      "name": "EUTBL / Spiko diligence teardown",
+      "description": "Source-labeled diligence teardown of the Spiko EU T-Bills Money Market Fund (EUTBL). Public-safe.",
+      "creativeWorkStatus": "public-safe",
+      "keywords": ["tokenized real-world assets", "RWA", "diligence", "EUTBL", "Spiko", "UCITS"]
+    }
+  ],
+  "disclaimer": "Independent diligence research. Not investment advice, legal advice, or tax advice. No scores, ratings, grades, rankings, or buy/sell/hold recommendations. Every claim carries a source/status label. Missing facts are marked: Unverified - additional primary source required."
+}
