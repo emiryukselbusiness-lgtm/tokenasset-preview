@@ -1,9 +1,101 @@
 {
   "$schema": "rwa-teardown/assets.v1",
   "$note": "Asset registry. 'publicStatus' = public-safe | private-feedback. Tape/metric values must be dated and sourced; never synthesize live price movement. Contracts and checklists are per asset.",
-  "generated": "2026-06-30",
-  "publisher": "Independent RWA Diligence (working name) — independent, source-backed diligence & monitoring",
+  "generated": "2026-07-01",
+  "publisher": "TokenAsset — independent, source-backed diligence & monitoring for tokenized funds",
   "disclaimer": "Independent diligence research. Not investment advice, legal advice, or tax advice. No scores, ratings, grades, rankings, or buy/sell/hold recommendations. Every claim carries a source/status label. Missing facts are marked: Unverified - additional primary source required.",
+  "lastRefresh": "2026-07-01",
+  "market": {
+    "totalRWA": {
+      "label": "Tokenized RWA on-chain",
+      "sub": "ex-stablecoins, mid-2026",
+      "value": "~$22–24B",
+      "status": "public-secondary",
+      "source": "RWA.xyz / DefiLlama public dashboards",
+      "date": "2026-06-30"
+    },
+    "treasuryMMF": {
+      "label": "Tokenized Treasury / MMF",
+      "sub": "the four funds span the majority",
+      "value": "~$7–8B",
+      "status": "public-secondary",
+      "source": "RWA.xyz public dashboard",
+      "date": "2026-06-30"
+    },
+    "trackedAssets": {
+      "label": "Assets tracked",
+      "value": "4",
+      "status": "public-primary",
+      "source": "TokenAsset coverage",
+      "date": "2026-07-01"
+    },
+    "publicCandidates": {
+      "label": "Public-source teardowns",
+      "sub": "fully public-safe; BUIDL public sections only",
+      "value": "3 of 4",
+      "status": "public-primary",
+      "source": "TokenAsset coverage",
+      "date": "2026-07-01"
+    },
+    "ownershipVerified": {
+      "label": "Ownership record disclosed",
+      "sub": "publicly confirmed which record controls",
+      "value": "3 of 4",
+      "status": "public-primary",
+      "source": "SEC 497 / UCITS docs / issuer disclosures",
+      "date": "2026-06-30"
+    }
+  },
+  "changeLog": [
+    {
+      "date": "2026-07-01",
+      "asset": "WTGXX / BENJI",
+      "source": "SEC EDGAR — monthly N-MFP filings",
+      "change": "Official month-end net assets, 7-day net yields, and monthly portfolio disclosure harvested (WTGXX $910.3M; FOBXX $813.5M at 05-31). AUM & yield upgraded to public-primary; monthly holdings cadence confirmed.",
+      "evidence": "public-primary",
+      "reviewer": "Reviewed"
+    },
+    {
+      "date": "2026-07-01",
+      "asset": "WTGXX",
+      "source": "SEC N-MFP vs RWA.xyz",
+      "change": "Reconciliation flag: SEC net assets grew to $910.3M while on-chain token value fell to $764.3M (−16%/30d) — different measures, divergence logged as a conflict claim.",
+      "evidence": "conflict",
+      "reviewer": "Flagged — review needed"
+    },
+    {
+      "date": "2026-07-01",
+      "asset": "BUIDL",
+      "source": "On-chain — public RPC / block explorers",
+      "change": "AUM re-derived from on-chain totalSupply across all 9 deployments ($2,248,596,182.75); all contract addresses confirmed; ETH/ARB proxy patterns read.",
+      "evidence": "public-primary",
+      "reviewer": "Reviewed"
+    },
+    {
+      "date": "2026-07-01",
+      "asset": "BUIDL",
+      "source": "SEC EDGAR",
+      "change": "Amended Form D/A confirmed by accession 0002004687-25-000001 (filed 2025-07-18).",
+      "evidence": "public-primary",
+      "reviewer": "Reviewed"
+    },
+    {
+      "date": "2026-07-01",
+      "asset": "EUTBL",
+      "source": "On-chain — public RPC",
+      "change": "Four EVM contracts confirmed (name/symbol/decimals/supply) on Ethereum, Polygon, Base, Arbitrum.",
+      "evidence": "public-primary",
+      "reviewer": "Reviewed"
+    },
+    {
+      "date": "2026-07-01",
+      "asset": "BUIDL",
+      "source": "RWA.xyz (source monitor)",
+      "change": "Public AUM / holders drift flagged by the automated source monitor for human review.",
+      "evidence": "public-secondary",
+      "reviewer": "Flagged — review needed"
+    }
+  ],
   "assets": [
     {
       "id": "BUIDL",
@@ -53,6 +145,21 @@
         "answer": "Unverified",
         "detail": "Not publicly disclosed which record legally controls ownership.",
         "status": "unverified"
+      },
+      "summary": {
+        "lastChecked": "2026-07-01",
+        "ownership": {
+          "status": "unverified",
+          "label": "Not publicly disclosed"
+        },
+        "redemption": {
+          "status": "unverified",
+          "label": "Terms Unverified (data-room)"
+        },
+        "contractMap": {
+          "status": "public-primary",
+          "label": "9/9 confirmed on-chain"
+        }
       },
       "keyGaps": [
         "Private Offering Memorandum, Articles, fact sheet, pitchbook",
@@ -214,10 +321,10 @@
       "statusNote": "Public-safe. Built entirely from SEC 497 filings, WisdomTree Connect, BNY Mellon release, and RWA.xyz. Numeric scores intentionally blank.",
       "tape": {
         "aum": {
-          "value": "$764.3M",
-          "date": "2026-06-30",
-          "sourceId": "S-WTGXX-RWAXYZ",
-          "status": "public-secondary",
+          "value": "$910.3M (SEC N-MFP)",
+          "date": "2026-05-31",
+          "sourceId": "S-WTGXX-NMFP",
+          "status": "public-primary",
           "publicSafe": true
         },
         "change30d": {
@@ -228,10 +335,10 @@
           "publicSafe": true
         },
         "yield": {
-          "value": "Unverified - additional primary source required",
-          "date": "2026-06-30",
-          "sourceId": null,
-          "status": "unverified",
+          "value": "3.38% 7-day net (SEC)",
+          "date": "2026-05-29",
+          "sourceId": "S-WTGXX-NMFP",
+          "status": "public-primary",
           "publicSafe": true
         }
       },
@@ -239,6 +346,21 @@
         "answer": "Transfer-agent book-entry",
         "detail": "Book-entry is authoritative; on-chain token supplementary, reconciled daily; TA record prevails.",
         "status": "public-primary"
+      },
+      "summary": {
+        "lastChecked": "2026-07-01",
+        "ownership": {
+          "status": "public-primary",
+          "label": "Transfer-agent book-entry (SEC 497)"
+        },
+        "redemption": {
+          "status": "unverified",
+          "label": "Daily; T+1 settle; exact cutoff Unverified"
+        },
+        "contractMap": {
+          "status": "unverified",
+          "label": "Per-chain addresses Unverified"
+        }
       },
       "keyGaps": [
         "Complete holdings disclosure",
@@ -324,10 +446,10 @@
       "statusNote": "Public-safe. SEC N-1A / 497 sourced. Retail FOBXX and institutional iBENJI are distinct products and must not be conflated.",
       "tape": {
         "aum": {
-          "value": "~$808M retail · ~$1.60B iBENJI",
-          "date": "2026-06-30",
-          "sourceId": "S-BENJI-RWAXYZ",
-          "status": "public-secondary",
+          "value": "$813.5M FOBXX (SEC N-MFP)",
+          "date": "2026-05-31",
+          "sourceId": "S-BENJI-NMFP",
+          "status": "public-primary",
           "publicSafe": true
         },
         "change30d": {
@@ -338,10 +460,10 @@
           "publicSafe": true
         },
         "yield": {
-          "value": "Unverified - additional primary source required",
-          "date": "2026-06-30",
-          "sourceId": null,
-          "status": "unverified",
+          "value": "3.46% 7-day net (SEC)",
+          "date": "2026-05-29",
+          "sourceId": "S-BENJI-NMFP",
+          "status": "public-primary",
           "publicSafe": true
         }
       },
@@ -349,6 +471,21 @@
         "answer": "Transfer agent (hybrid)",
         "detail": "Benji transfer agent holds official record; blockchain framed as 'part of the official system of record'. TA prevails.",
         "status": "public-primary"
+      },
+      "summary": {
+        "lastChecked": "2026-07-01",
+        "ownership": {
+          "status": "public-primary",
+          "label": "Transfer agent (hybrid, SEC N-1A)"
+        },
+        "redemption": {
+          "status": "public-primary",
+          "label": "Daily; no fee / no minimum"
+        },
+        "contractMap": {
+          "status": "unverified",
+          "label": "Per-chain addresses Unverified"
+        }
       },
       "keyGaps": [
         "Stellar minimum investment (exact figure)",
@@ -458,6 +595,21 @@
         "answer": "Blockchain is the registry",
         "detail": "Public blockchain IS the primary share registry (bypasses CSD); each token is the legal unit.",
         "status": "public-primary"
+      },
+      "summary": {
+        "lastChecked": "2026-07-01",
+        "ownership": {
+          "status": "public-primary",
+          "label": "Blockchain is the registry (UCITS)"
+        },
+        "redemption": {
+          "status": "public-primary",
+          "label": "T+0 before 11:30 CET; daily"
+        },
+        "contractMap": {
+          "status": "public-primary",
+          "label": "4 EVM on-chain; Stellar/Starknet Unverified"
+        }
       },
       "keyGaps": [
         "Full UCITS prospectus text (PDF fetch failed)",

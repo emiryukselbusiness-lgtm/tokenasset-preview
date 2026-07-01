@@ -149,6 +149,38 @@
       ]
     },
     {
+      "id": "S-WTGXX-NMFP",
+      "title": "SEC EDGAR — WTGXX monthly N-MFP filings (netAssetOfSeries, 7-day net yield, full portfolio; latest report date 2026-05-31, acc 0001193125-26-258516)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001859001&type=N-MFP",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-07-01",
+      "claimIds": [
+        "C-WTGXX-NMFP",
+        "C-WTGXX-RECON"
+      ]
+    },
+    {
+      "id": "S-BENJI-NMFP",
+      "title": "SEC EDGAR — FOBXX monthly N-MFP filings (netAssetOfSeries, 7-day net yield, full portfolio; latest report date 2026-05-31, acc 0002071691-26-013228)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001786958&type=N-MFP",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-07-01",
+      "claimIds": [
+        "C-BENJI-NMFP"
+      ]
+    },
+    {
+      "id": "S-EUTBL-CG",
+      "title": "CoinGecko — EUTBL market data (historical market cap series)",
+      "url": "https://www.coingecko.com/en/coins/spiko-eu-t-bills-money-market-fund",
+      "type": "public-secondary",
+      "publicStatus": "public",
+      "dateChecked": "2026-07-01",
+      "claimIds": []
+    },
+    {
       "id": "S-WTGXX-RWAXYZ",
       "title": "RWA.xyz — WTGXX asset page",
       "url": "https://app.rwa.xyz/assets/WTGXX",

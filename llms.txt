@@ -14,7 +14,7 @@ A reusable teardown interface that separates, for each asset:
 - Conflicts between sources
 
 ## Pages
-- /index.html                    — company overview: what this is, the evidence-label method, the four teardowns
+- /index.html                    — DATA-FIRST cockpit: market/coverage KPIs, a sortable asset intelligence table (AUM, ownership/redemption/contract-map status, last-checked + freshness, evidence), a data-reliability section, and a change-log preview. The evidence-label method is lower on the page. Data comes from data/assets.json (top-level `market`, `changeLog`, and per-asset `summary`).
 - /teardown.html?asset=wtgxx     — WTGXX teardown (public-safe)
 - /teardown.html?asset=benji     — BENJI / FOBXX teardown (public-safe)
 - /teardown.html?asset=eutbl     — EUTBL / Spiko teardown (public-safe)

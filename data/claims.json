@@ -286,13 +286,40 @@
       "id": "C-WTGXX-AUM",
       "asset": "WTGXX",
       "section": "facts",
-      "label": "AUM (public)",
-      "value": "$764.3M (−16.03% over 30 days), as of 2026-06-30. Cause of decline Unverified - additional primary source required.",
+      "label": "On-chain token value (public cross-check)",
+      "value": "$764.3M (−16.03% over 30 days) per RWA.xyz, as of 2026-06-30 — this tracks the tokenized on-chain representation, not total fund net assets (see the SEC N-MFP claim and the reconciliation note).",
       "status": "public-secondary",
       "sources": [
         "S-WTGXX-RWAXYZ"
       ],
       "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-NMFP",
+      "asset": "WTGXX",
+      "section": "facts",
+      "label": "Official net assets, yield & monthly holdings (SEC N-MFP)",
+      "value": "SEC N-MFP filings report month-end fund net assets: $910,309,488.09 as of 2026-05-31, up from $660.7M at 2025-11-30 (7 consecutive monthly filings). 7-day net yield 3.38% (2026-05-29). The filing also discloses the full portfolio monthly (10 line items at 05-31, incl. U.S. Treasury bills and government funds) — so holdings ARE publicly disclosed with a monthly cadence.",
+      "status": "public-primary",
+      "sources": [
+        "S-WTGXX-NMFP"
+      ],
+      "dateChecked": "2026-07-01",
+      "publicSafe": true
+    },
+    {
+      "id": "C-WTGXX-RECON",
+      "asset": "WTGXX",
+      "section": "facts",
+      "label": "Reconciliation: SEC net assets vs on-chain value",
+      "value": "SEC-filed fund net assets GREW to $910.3M (2026-05-31) while the RWA.xyz on-chain token value fell to $764.3M (−16% / 30d, 2026-06-30). These measure different things (total fund net assets vs the tokenized on-chain representation) and the dates differ; the divergence itself is a finding — cause Unverified - additional primary source required.",
+      "status": "conflict",
+      "sources": [
+        "S-WTGXX-NMFP",
+        "S-WTGXX-RWAXYZ"
+      ],
+      "dateChecked": "2026-07-01",
       "publicSafe": true
     },
     {
@@ -378,13 +405,26 @@
       "id": "C-BENJI-AUM",
       "asset": "BENJI",
       "section": "facts",
-      "label": "AUM (public)",
-      "value": "Retail FOBXX ~$808M; institutional iBENJI ~$1.60B; combined ~$2.4B; ~1,117 retail wallet addresses, as of 2026-06-30",
+      "label": "AUM (public cross-check)",
+      "value": "Retail FOBXX ~$808M; institutional iBENJI ~$1.60B; combined ~$2.4B; ~1,117 retail wallet addresses, as of 2026-06-30 (RWA.xyz)",
       "status": "public-secondary",
       "sources": [
         "S-BENJI-RWAXYZ"
       ],
       "dateChecked": "2026-06-30",
+      "publicSafe": true
+    },
+    {
+      "id": "C-BENJI-NMFP",
+      "asset": "BENJI",
+      "section": "facts",
+      "label": "Official net assets, yield & monthly holdings (SEC N-MFP)",
+      "value": "SEC N-MFP filings report FOBXX month-end net assets: $813,503,614.42 as of 2026-05-31, with 19 monthly filings back to 2024-11 ($432.9M) — an official, public growth series. 7-day net yield 3.46% (2026-05-29). The filing discloses the full portfolio monthly (75 line items at 05-31: Treasury repo counterparties incl. Bank of America, plus government agency paper) — holdings ARE publicly disclosed with a monthly cadence. Fund category: U.S. Treasury Repurchase Agreement (Treasuries-and-cash collateral only).",
+      "status": "public-primary",
+      "sources": [
+        "S-BENJI-NMFP"
+      ],
+      "dateChecked": "2026-07-01",
       "publicSafe": true
     },
     {
