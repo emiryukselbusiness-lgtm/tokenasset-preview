@@ -56,6 +56,7 @@
       </a>
       <nav class="toolbar" aria-label="Primary">
         <a class="ctl btn" href="#assets">Assets</a>
+        <a class="ctl btn" href="compare.html">Compare</a>
         <a class="ctl btn" href="#reliability">Data reliability</a>
         <a class="ctl btn" href="#method">Method</a>
         <button class="ctl btn" id="theme-toggle" aria-pressed="false" title="Toggle light/dark">Dark</button>
@@ -80,7 +81,19 @@
         <label class="field inline"><span class="ctl-label">Filter</span>
           <input type="search" id="table-search" placeholder="Asset, ticker, or issuer…" aria-label="Filter assets" /></label>
       </div>
-      <p class="section-note">Click a column header to sort. Every cell is source-labeled; missing facts read “Unverified - additional primary source required.” No live price simulation.</p>
+      <p class="section-note">Search anything — issuer, chain, custodian, transfer agent, structure, jurisdiction. Click a column header to sort. Every cell is source-labeled; open items carry an Unverified badge (exact source requirements live in each teardown). No simulated data.</p>
+      <div class="preset-chips" role="group" aria-label="Quick views">
+        <button class="chip on" data-preset="all">All assets</button>
+        <button class="chip" data-preset="largest">Largest funds</button>
+        <button class="chip" data-preset="complete">Most complete documentation</button>
+        <button class="chip" data-preset="updated">Recently updated</button>
+        <button class="chip" data-preset="review">Under review / open items</button>
+      </div>
+      <div class="filters table-filters">
+        <label class="field"><span class="ctl-label">Blockchain</span><select id="f-chain" aria-label="Filter by blockchain"></select></label>
+        <label class="field"><span class="ctl-label">Fund structure</span><select id="f-structure" aria-label="Filter by fund structure"></select></label>
+        <label class="field"><span class="ctl-label">Investor access</span><select id="f-access" aria-label="Filter by investor access"></select></label>
+      </div>
       <div class="table-scroll">
         <table class="data-table intel-table" id="asset-table">
           <thead><tr>
@@ -92,9 +105,9 @@
             <th scope="col">Ownership record</th>
             <th scope="col">Redemption terms</th>
             <th scope="col">Contract map</th>
-            <th scope="col" data-sort="lastChecked" tabindex="0" role="button">Last checked</th>
-            <th scope="col">Evidence</th>
-            <th scope="col">Teardown</th>
+            <th scope="col" data-sort="lastChecked" tabindex="0" role="button">Last reviewed</th>
+            <th scope="col" data-sort="evidence" tabindex="0" role="button" title="Documentation coverage — not a quality or risk score">Evidence mix</th>
+            <th scope="col">Actions</th>
           </tr></thead>
           <tbody></tbody>
         </table>
@@ -117,10 +130,24 @@
       <div class="history-grid" id="history-grid"></div>
     </section>
 
+    <!-- WATCHLIST: broader tokenized market (real market data) -->
+    <section class="card" id="watchlist" aria-labelledby="wl-h">
+      <p class="eyebrow"><span class="num">04</span> Watchlist</p>
+      <h2 id="wl-h">Broader Tokenized Market — Stablecoins &amp; Treasury Tokens</h2>
+      <p class="section-note" id="watchlist-note">Loading…</p>
+      <div class="table-scroll">
+        <table class="data-table intel-table" id="watchlist-table">
+          <thead><tr><th scope="col">Asset</th><th scope="col">Price</th><th scope="col">Market cap</th><th scope="col">30-day</th><th scope="col">Evidence</th><th scope="col">As of</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- DATA RELIABILITY -->
     <section class="card" id="reliability" aria-labelledby="rel-h">
-      <p class="eyebrow"><span class="num">04</span> Reliability</p>
+      <p class="eyebrow"><span class="num">05</span> Reliability</p>
       <h2 id="rel-h">How this data is verified and monitored</h2>
+      <p class="section-note" id="cadence-line"></p>
       <div class="reliability-counts" id="reliability-counts"></div>
       <div class="who-grid">
         <div><h3>Automatically monitored</h3><p>Public sources on a schedule: SEC EDGAR filings, RWA.xyz asset pages, and on-chain contract state. A change opens a review item — the bot flags, a human confirms.</p></div>
@@ -134,15 +161,15 @@
 
     <!-- CHANGE LOG PREVIEW -->
     <section class="card" id="changelog-sec" aria-labelledby="cl-h">
-      <p class="eyebrow"><span class="num">05</span> Recent updates</p>
-      <h2 id="cl-h">Change Log Preview</h2>
-      <p class="section-note">The latest confirmed source changes and verification updates. Each entry is dated, attributed to a source, and marked with reviewer status.</p>
+      <p class="eyebrow"><span class="num">06</span> Intelligence</p>
+      <h2 id="cl-h">Market Intelligence — What Changed</h2>
+      <p class="section-note">Filing changes, contract events, and verification updates across tracked assets — dated, attributed to a source, and marked with reviewer status. Fed by the automated source monitor (SEC EDGAR, RWA.xyz, on-chain state) plus manual review.</p>
       <div class="changelog" id="changelog"></div>
     </section>
 
     <!-- CORE QUESTION TEASER -->
     <section class="card" id="core-teaser" aria-labelledby="core-h">
-      <p class="eyebrow"><span class="num">06</span> The question behind the data</p>
+      <p class="eyebrow"><span class="num">07</span> The question behind the data</p>
       <h2 id="core-h">If the blockchain record and the fund’s official books disagree, which legally controls ownership?</h2>
       <p class="lede">The single most consequential diligence question for a tokenized fund — it decides what the token legally is. The four funds answer it four different ways, and one does not answer it publicly at all. Each teardown states its answer with the exact source.</p>
       <a class="btn" href="teardown.html?asset=wtgxx#core">See the side-by-side comparison</a>
@@ -150,7 +177,7 @@
 
     <!-- METHOD (moved lower — supports the data) -->
     <section class="card" id="method" aria-labelledby="method-h">
-      <p class="eyebrow"><span class="num">07</span> Method</p>
+      <p class="eyebrow"><span class="num">08</span> Method</p>
       <h2 id="method-h">Every fact carries an evidence label</h2>
       <p class="section-note">The label system is what lets the numbers above be checked: it separates a filing from an aggregator, an account-gated capture from a public one, and a verified fact from a gap. Nothing is presented as more certain than its source allows.</p>
       <ul class="method-legend">
@@ -166,7 +193,7 @@
 
     <!-- QUICK ANSWERS -->
     <section class="card answers" id="answers" aria-labelledby="answers-h">
-      <p class="eyebrow"><span class="num">08</span> Quick answers</p>
+      <p class="eyebrow"><span class="num">09</span> Quick answers</p>
       <h2 id="answers-h">For reviewers and AI agents</h2>
       <div class="qa">
         <div><dt>What is this?</dt><dd>A source-backed intelligence cockpit for tokenized real-world funds — verified facts, labeled by evidence type, dated, and freshness-tracked. Not an issuer, adviser, or rating agency.</dd></div>

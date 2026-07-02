@@ -21,6 +21,10 @@ A reusable teardown interface that separates, for each asset:
 - /teardown.html?asset=buidl     — BUIDL teardown (private-feedback; public-safe sections only on the public page)
 The teardown page is one interactive app; the ?asset= parameter selects which fund. A "Public-safe mode" toggle hides all account-gated evidence.
 
+- /compare.html                  — side-by-side comparison matrix of the four funds (structure, custodian, TA, auditor, redemption, ownership record), every cell evidence-labeled
+- /data/watchlist.json           — broader-market snapshot (stablecoins + treasury tokens; CoinGecko, public-secondary, dated)
+- /data/history.json             — real historical series (SEC N-MFP + CoinGecko)
+
 ## Assets currently covered
 - BUIDL  — BlackRock USD Institutional Digital Liquidity Fund (private-feedback; public-safe sections only on public page)
 - WTGXX  — WisdomTree Treasury Money Market Digital Fund (public-safe)

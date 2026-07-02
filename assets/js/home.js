@@ -1,13 +1,13 @@
 /* =========================================================================
    TokenAsset — home.js : data-first homepage cockpit (vanilla JS)
-   Renders KPIs, the asset intelligence table, freshness, change log, and
-   reliability counts from data/*.json. No scores, no advice, no fake live data.
-   Freshness is computed from each fact's dateChecked vs. the current date —
-   so stale data visibly ages instead of masquerading as current.
+   KPIs, asset intelligence table (search/filter/sort/presets), evidence-mix
+   bars (documentation coverage — never a quality/risk score), real history
+   charts, watchlist, market intelligence. No scores, no advice, no fake data.
    ========================================================================= */
 (() => {
   "use strict";
   const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
   const esc = (s) => String(s==null?"":s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const STATUS_LABEL = {
     "public-primary":"Public primary","public-secondary":"Public secondary",
@@ -15,8 +15,9 @@
     "unverified":"Unverified","conflict":"Conflict"
   };
   const badge = (st) => `<span class="badge ${esc(st)}"><span class="dot"></span>${esc(STATUS_LABEL[st]||st)}</span>`;
+  const miniBadge = (st, label) => `<span class="badge mini ${esc(st)}" title="${esc(STATUS_LABEL[st]||st)}${label?" — "+esc(label):""}"><span class="dot"></span>${esc(label||STATUS_LABEL[st]||st)}</span>`;
 
-  // ---- freshness (computed from dateChecked vs today) ----
+  // ---- freshness ----
   function freshness(dateStr){
     if(!dateStr) return {k:"manual", label:"Manual review"};
     const d = new Date(dateStr + "T00:00:00");
@@ -27,14 +28,11 @@
     return {k:"stale", label:"Stale", days};
   }
   const freshChip = (dateStr) => { const f=freshness(dateStr); return `<span class="fresh-chip ${f.k}" title="Checked ${esc(dateStr||"—")}">${f.label}</span>`; };
-  const parseAum = (v) => { // rough numeric sort key from strings like "$2.2486B" / "~$764.3M"
-    if(!v) return -1; const m = String(v).replace(/,/g,"").match(/([\d.]+)\s*([BMK]?)/i);
-    if(!m) return -1; let n=parseFloat(m[1]); const u=(m[2]||"").toUpperCase();
-    return n * (u==="B"?1e9:u==="M"?1e6:u==="K"?1e3:1);
-  };
+  const parseAum = (v) => { if(!v) return -1; const m=String(v).replace(/,/g,"").match(/([\d.]+)\s*([BMK]?)/i);
+    if(!m) return -1; const u=(m[2]||"").toUpperCase(); return parseFloat(m[1])*(u==="B"?1e9:u==="M"?1e6:u==="K"?1e3:1); };
 
   let DATA = {};
-  const state = { sortKey:"aum", sortDir:-1, q:"" };
+  const state = { sortKey:"aum", sortDir:-1, q:"", chain:"all", structure:"all", access:"all", preset:"all" };
 
   async function boot(){
     try {
@@ -45,150 +43,90 @@
       ]);
       DATA = { assets:a, claims:c.claims, sources:s.sources };
     } catch(e){
-      const el=$("#cockpit"); if(el) el.innerHTML = `<p class="section-note">Open through a local web server (browsers block file:// fetch). See README.</p>`;
+      const el=$("#cockpit"); if(el) el.insertAdjacentHTML("afterbegin", `<p class="section-note">Open through a local web server (browsers block file:// fetch). See README.</p>`);
       console.error(e); return;
     }
-    renderKpis();
-    renderTable();
-    renderReliability();
-    renderChangeLog();
-    bindTheme();
-    bindTable();
-    renderHistory();   // real historical series (SEC N-MFP / CoinGecko) — no simulation
-    liveCheck();       // real live market data fetched client-side, timestamped + labeled
+    renderKpis(); buildFilters(); renderTable(); renderReliability(); renderChangeLog();
+    bindTheme(); bindTable();
+    renderHistory(); renderWatchlist(); liveCheck();
   }
 
-  /* ---------- history charts (real data, scrub to read values) ---------- */
-  const fmtUsd = v => v>=1e9 ? `$${(v/1e9).toFixed(2)}B` : v>=1e6 ? `$${(v/1e6).toFixed(1)}M` : `$${Math.round(v).toLocaleString()}`;
-  const fmtDate = t => new Date(t).toISOString().slice(0,10);
-
-  async function renderHistory(){
-    let hist;
-    try { hist = await fetch("data/history.json").then(r=>r.json()); } catch(e){ return; }
-    const wrap = $("#history-grid"); if(!wrap) return;
-    const order = ["BUIDL","BENJI","EUTBL","WTGXX"];
-    wrap.innerHTML = order.filter(k=>hist.series[k]).map(k => {
-      const s = hist.series[k];
-      const pts = s.points; const n = pts.length;
-      const first = pts[0].v, last = pts[n-1].v;
-      const delta = 100*(last-first)/first;
-      const range = `${fmtDate(pts[0].t)} → ${fmtDate(pts[n-1].t)}`;
-      return `<div class="chart-card" data-series="${esc(k)}">
-        <div class="ch-head">
-          <div><span class="ch-tic">${esc(k)}</span><span class="ch-lbl">${esc(s.label)}</span></div>
-          <div class="ch-right">${badge(s.status)}<span class="live-slot" id="live-${esc(k)}"></span></div>
-        </div>
-        <div class="ch-now"><span class="ch-val" id="chval-${esc(k)}">${fmtUsd(last)}</span>
-          <span class="ch-date" id="chdate-${esc(k)}">${fmtDate(pts[n-1].t)}</span>
-          <span class="ch-delta">${delta>=0?"+":""}${delta.toFixed(1)}% over period</span></div>
-        <svg class="ch-svg" viewBox="0 0 600 180" preserveAspectRatio="none" role="img"
-             aria-label="${esc(k)} history ${esc(range)}: ${fmtUsd(first)} to ${fmtUsd(last)}"></svg>
-        <div class="ch-foot"><span>${esc(range)}</span><span class="ch-src">${esc(s.source)}</span></div>
-      </div>`;
-    }).join("");
-    order.filter(k=>hist.series[k]).forEach(k => drawChart(k, hist.series[k]));
-  }
-
-  function drawChart(key, s){
-    const card = document.querySelector(`.chart-card[data-series="${key}"]`);
-    const svg = card.querySelector("svg");
-    const pts = s.points, n = pts.length;
-    const W=600,H=180,P=8;
-    const vmin = Math.min(...pts.map(p=>p.v)), vmax = Math.max(...pts.map(p=>p.v));
-    const pad = (vmax-vmin)*0.08 || vmax*0.05;
-    const y = v => H-P - (H-2*P)*((v-(vmin-pad))/((vmax+pad)-(vmin-pad)));
-    const x = i => P + (W-2*P)*(i/(n-1));
-    const line = pts.map((p,i)=>`${i?"L":"M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
-    svg.innerHTML = `
-      <path d="${line} L${x(n-1)},${H} L${x(0)},${H} Z" class="ch-area"/>
-      <path d="${line}" class="ch-line" fill="none"/>
-      <line class="ch-cross" x1="0" x2="0" y1="0" y2="${H}" style="display:none"/>
-      <circle class="ch-dot" r="4" style="display:none"/>`;
-    const cross = svg.querySelector(".ch-cross"), dot = svg.querySelector(".ch-dot");
-    const valEl = card.querySelector(`#chval-${key}`), dateEl = card.querySelector(`#chdate-${key}`);
-    const base = { v: fmtUsd(pts[n-1].v), d: fmtDate(pts[n-1].t) };
-    function scrub(clientX){
-      const r = svg.getBoundingClientRect();
-      const i = Math.max(0, Math.min(n-1, Math.round((clientX-r.left)/r.width*(n-1))));
-      cross.style.display = dot.style.display = "";
-      cross.setAttribute("x1",x(i)); cross.setAttribute("x2",x(i));
-      dot.setAttribute("cx",x(i)); dot.setAttribute("cy",y(pts[i].v));
-      valEl.textContent = fmtUsd(pts[i].v) + (pts[i].y!=null?` · ${pts[i].y.toFixed(2)}% 7d`:"" );
-      dateEl.textContent = fmtDate(pts[i].t);
-    }
-    function reset(){ cross.style.display=dot.style.display="none"; valEl.textContent=base.v; dateEl.textContent=base.d; }
-    svg.addEventListener("mousemove", e=>scrub(e.clientX));
-    svg.addEventListener("mouseleave", reset);
-    svg.addEventListener("touchmove", e=>{ if(e.touches[0]) scrub(e.touches[0].clientX); }, {passive:true});
-    svg.addEventListener("touchend", reset);
-  }
-
-  /* ---------- live market check (REAL data, clearly timestamped; never simulated) ---------- */
-  async function liveCheck(){
-    const ids = { "blackrock-usd-institutional-digital-liquidity-fund":"BUIDL", "eutbl":"EUTBL" };
-    try {
-      const q = Object.keys(ids).join(",");
-      const d = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${q}&vs_currencies=usd&include_market_cap=true`,
-                            {signal: AbortSignal.timeout(8000)}).then(r=>r.json());
-      const now = new Date();
-      const hhmm = now.toTimeString().slice(0,5);
-      Object.entries(ids).forEach(([id,k])=>{
-        const slot = document.getElementById(`live-${k}`);
-        const cap = d[id]?.usd_market_cap;
-        if(slot && cap){ slot.innerHTML = `<span class="live-chip" title="Fetched live from CoinGecko (public-secondary) at ${hhmm} — real market data, not simulated">● live ${fmtUsd(cap)} · ${hhmm}</span>`; }
-      });
-    } catch(e){ /* offline / blocked: dated snapshots remain — never simulate */ }
-  }
-
-  const evidenceProfile = (assetId) => {
+  /* ---------- evidence profile (documentation coverage, NOT a score) ---------- */
+  function evidenceProfile(assetId){
     const cs = DATA.claims.filter(c => c.asset===assetId && c.publicSafe!==false && c.status!=="official-gated");
-    const counts={}; cs.forEach(c => counts[c.status]=(counts[c.status]||0)+1);
-    const order=["public-primary","public-secondary","conflict","internal-lead","unverified"];
-    let best="public-secondary", bestN=-1;
-    order.forEach(k => { if((counts[k]||0)>bestN){best=k;bestN=counts[k]||0;} });
-    return { best, pp:(counts["public-primary"]||0), total:cs.length };
-  };
+    const n = cs.length || 1;
+    const cnt = k => cs.filter(c=>c.status===k).length;
+    const pp=cnt("public-primary"), ps=cnt("public-secondary"), cf=cnt("conflict"), uv=cnt("unverified")+cnt("internal-lead");
+    return { pp, ps, cf, uv, total:cs.length,
+      pctPP: Math.round(100*pp/n), pctPS: Math.round(100*ps/n), pctCF: Math.round(100*cf/n), pctUV: Math.round(100*uv/n),
+      completeness: Math.round(100*(pp+ps)/n) };
+  }
+  const evBar = (ev) => `
+    <div class="ev-wrap" title="Evidence mix — documentation coverage only, not a quality or risk score. Public-primary ${ev.pctPP}% · secondary ${ev.pctPS}% · conflict ${ev.pctCF}% · unverified ${ev.pctUV}%">
+      <div class="ev-bar" role="img" aria-label="Documentation coverage: ${ev.pctPP}% public primary, ${ev.pctPS}% secondary, ${ev.pctCF}% conflict, ${ev.pctUV}% unverified">
+        <span class="ev pp" style="width:${ev.pctPP}%"></span><span class="ev ps" style="width:${ev.pctPS}%"></span><span class="ev cf" style="width:${ev.pctCF}%"></span><span class="ev uv" style="width:${ev.pctUV}%"></span>
+      </div>
+      <span class="ev-num">${ev.pctPP}% primary · ${ev.pctUV}% open</span>
+    </div>`;
 
+  /* ---------- KPIs ---------- */
   function renderKpis(){
     const m = DATA.assets.market || {};
     const order = ["totalRWA","treasuryMMF","trackedAssets","publicCandidates","ownershipVerified"];
-    const cards = order.filter(k=>m[k]).map(k => {
-      const x = m[k];
-      return `<div class="kpi">
-        <div class="kpi-top">${badge(x.status)}${freshChip(x.date)}</div>
+    $("#kpi-grid").innerHTML = order.filter(k=>m[k]).map(k => { const x=m[k];
+      return `<div class="kpi"><div class="kpi-top">${badge(x.status)}${freshChip(x.date)}</div>
         <div class="kpi-val">${esc(x.value)}</div>
         <div class="kpi-lbl">${esc(x.label)}${x.sub?` <span class="kpi-sub">${esc(x.sub)}</span>`:""}</div>
-        <div class="kpi-src">Source: ${esc(x.source||"—")} · ${esc(x.date||"—")}</div>
-      </div>`;
-    }).join("");
-    const refresh = DATA.assets.lastRefresh;
-    const f = freshness(refresh);
-    $("#kpi-grid").innerHTML = cards;
+        <div class="kpi-src">Source: ${esc(x.source||"—")} · ${esc(x.date||"—")}</div></div>`; }).join("");
+    const refresh = DATA.assets.lastRefresh; const f = freshness(refresh);
     $("#refresh-line").innerHTML = `Last data refresh: <strong>${esc(refresh||"—")}</strong> <span class="fresh-chip ${f.k}">${f.label}</span>
-      <span class="muted">· figures carry a source, date, and public/private label · no live price simulation</span>`;
+      <span class="muted">· every figure carries a source, date, and public/private label · no simulated data</span>`;
+  }
+
+  /* ---------- filters & presets ---------- */
+  function buildFilters(){
+    const A = DATA.assets.assets;
+    const chains = [...new Set(A.flatMap(a=>a.chains||[]))].sort();
+    $("#f-chain").innerHTML = `<option value="all">All chains</option>` + chains.map(c=>`<option>${esc(c)}</option>`).join("");
+    $("#f-structure").innerHTML = `<option value="all">All structures</option>
+      <option value="40-act">'40-Act fund</option><option value="ucits">UCITS</option><option value="private">Private fund (3(c)(7))</option>`;
+    $("#f-access").innerHTML = `<option value="all">All access</option><option value="retail">Retail-accessible</option><option value="institutional">Institutional / qualified</option>`;
+  }
+  const PRESETS = {
+    all:      { label:"All assets", apply:()=>{ state.sortKey="aum"; state.sortDir=-1; } },
+    largest:  { label:"Largest funds", apply:()=>{ state.sortKey="aum"; state.sortDir=-1; } },
+    complete: { label:"Most complete documentation", apply:()=>{ state.sortKey="evidence"; state.sortDir=-1; } },
+    updated:  { label:"Recently updated", apply:()=>{ state.sortKey="lastChecked"; state.sortDir=-1; } },
+    review:   { label:"Under review / open items", apply:()=>{ state.sortKey="evidence"; state.sortDir=1; } }
+  };
+
+  function haystack(a){
+    const prof = a.profile||{};
+    return [a.ticker,a.name,a.issuer,a.assetType,a.wrapper,a.navType,a.eligibility,(a.chains||[]).join(" "),
+      a.whyItMatters, prof.custodian?.v, prof.transferAgent?.v, prof.auditor?.v, prof.standard?.v, prof.jurisdiction?.v,
+      a.publicStatus].filter(Boolean).join(" ").toLowerCase();
   }
 
   function assetRows(){
     let rows = DATA.assets.assets.map(a => {
-      const sm = a.summary || {};
-      const tape = a.tape || {};
-      const ev = evidenceProfile(a.id);
-      return {
-        id:a.id, ticker:a.ticker, name:a.name, issuer:a.issuer,
-        aum: tape.aum || {}, change: tape.change30d || {},
-        chains: (a.chains||[]).length,
-        ownership: sm.ownership || {status:"unverified",label:"—"},
-        redemption: sm.redemption || {status:"unverified",label:"—"},
-        contractMap: sm.contractMap || {status:"unverified",label:"—"},
-        lastChecked: sm.lastChecked || tape.aum?.date || "",
-        ev, publicStatus:a.publicStatus
-      };
+      const sm=a.summary||{}, tape=a.tape||{}, ev=evidenceProfile(a.id);
+      return { id:a.id, ticker:a.ticker, name:a.name, issuer:a.issuer, why:a.whyItMatters||"",
+        aum:tape.aum||{}, change:tape.change30d||{}, chains:(a.chains||[]).length,
+        ownership:sm.ownership||{status:"unverified",label:"—"}, redemption:sm.redemption||{status:"unverified",label:"—"},
+        contractMap:sm.contractMap||{status:"unverified",label:"—"}, lastChecked:sm.lastChecked||tape.aum?.date||"",
+        ev, publicStatus:a.publicStatus, wrapper:(a.wrapper||"").toLowerCase(), eligibility:(a.eligibility||"").toLowerCase(),
+        chainsArr:a.chains||[], hay:haystack(a) };
     });
-    if(state.q){ const q=state.q.toLowerCase();
-      rows = rows.filter(r => `${r.ticker} ${r.name} ${r.issuer}`.toLowerCase().includes(q)); }
-    const key = state.sortKey, dir = state.sortDir;
+    if(state.q) rows = rows.filter(r => r.hay.includes(state.q.toLowerCase()));
+    if(state.chain!=="all") rows = rows.filter(r => r.chainsArr.includes(state.chain));
+    if(state.structure!=="all") rows = rows.filter(r =>
+      state.structure==="40-act" ? r.wrapper.includes("40-act") :
+      state.structure==="ucits" ? r.wrapper.includes("ucits") : r.wrapper.includes("private"));
+    if(state.access!=="all") rows = rows.filter(r =>
+      state.access==="retail" ? /retail|\$1\b|€1,000/.test(r.eligibility) : /institutional|qualified/.test(r.eligibility));
+    const key=state.sortKey, dir=state.sortDir;
     const val = r => key==="aum" ? parseAum(r.aum.value) : key==="chains" ? r.chains
-      : key==="lastChecked" ? (r.lastChecked||"") : (r[key]||"").toString().toLowerCase();
+      : key==="evidence" ? r.ev.completeness : key==="lastChecked" ? (r.lastChecked||"") : (r[key]||"").toString().toLowerCase();
     rows.sort((x,y)=>{ const a=val(x),b=val(y); return (a<b?-1:a>b?1:0)*dir; });
     return rows;
   }
@@ -198,32 +136,50 @@
       const priv = r.publicStatus !== "public-safe";
       return `<tr>
         <td><a class="t-tic" href="teardown.html?asset=${esc(r.id.toLowerCase())}">${esc(r.ticker)}</a>
-            ${priv?`<span class="pill-priv" title="Private-feedback draft — public page uses public sources only">private</span>`:""}</td>
-        <td>${esc(r.issuer)}</td>
-        <td><span class="t-aum">${esc(r.aum.value||"—")}</span> ${r.aum.status?badge(r.aum.status):""}</td>
-        <td>${esc(r.change.value||"—")}</td>
+            ${priv?`<span class="pill-priv" title="Private-feedback draft — public page uses public sources only">private</span>`:""}
+            <span class="t-name">${esc(r.name)}</span></td>
+        <td>${esc(r.issuer)}<span class="t-why">${esc(r.why)}</span></td>
+        <td><span class="t-aum">${esc(r.aum.value||"—")}</span> ${r.aum.status?miniBadge(r.aum.status):""}</td>
+        <td>${r.change.value?`${esc(r.change.value)} ${miniBadge(r.change.status)}`:miniBadge("unverified")}</td>
         <td class="t-num">${r.chains}</td>
-        <td>${badge(r.ownership.status)} <span class="t-lbl">${esc(r.ownership.label)}</span></td>
-        <td>${badge(r.redemption.status)} <span class="t-lbl">${esc(r.redemption.label)}</span></td>
-        <td>${badge(r.contractMap.status)} <span class="t-lbl">${esc(r.contractMap.label)}</span></td>
+        <td>${miniBadge(r.ownership.status, r.ownership.label)}</td>
+        <td>${miniBadge(r.redemption.status, r.redemption.label)}</td>
+        <td>${miniBadge(r.contractMap.status, r.contractMap.label)}</td>
         <td>${esc(r.lastChecked||"—")}<br>${freshChip(r.lastChecked)}</td>
-        <td>${badge(r.ev.best)}<br><span class="t-lbl">${r.ev.pp}/${r.ev.total} public-primary</span></td>
-        <td><a class="btn-sm" href="teardown.html?asset=${esc(r.id.toLowerCase())}">Open →</a></td>
+        <td>${evBar(r.ev)}</td>
+        <td><a class="btn-sm" href="teardown.html?asset=${esc(r.id.toLowerCase())}">Open →</a>
+            <a class="btn-sm" href="compare.html">Compare</a></td>
       </tr>`;
     }).join("");
-    $("#asset-table tbody").innerHTML = rows;
-    // header sort indicators
-    document.querySelectorAll("#asset-table th[data-sort]").forEach(th=>{
+    $("#asset-table tbody").innerHTML = rows || `<tr><td colspan="11" class="empty">No assets match the current filters.</td></tr>`;
+    $$("#asset-table th[data-sort]").forEach(th=>{
       const k=th.getAttribute("data-sort");
       th.setAttribute("aria-sort", state.sortKey===k ? (state.sortDir===1?"ascending":"descending") : "none");
       th.querySelector(".ind")?.remove();
       if(state.sortKey===k){ const s=document.createElement("span"); s.className="ind"; s.textContent = state.sortDir===1?" ▲":" ▼"; th.appendChild(s); }
     });
+    $$(".preset-chips .chip").forEach(c => c.classList.toggle("on", c.dataset.preset===state.preset));
   }
 
+  /* ---------- watchlist (broader market, real CoinGecko data) ---------- */
+  async function renderWatchlist(){
+    let wl; try { wl = await fetch("data/watchlist.json").then(r=>r.json()); } catch(e){ return; }
+    const el=$("#watchlist-table tbody"); if(!el) return;
+    const fmt = v => v>=1e9?`$${(v/1e9).toFixed(1)}B`:v>=1e6?`$${(v/1e6).toFixed(0)}M`:`$${Math.round(v).toLocaleString()}`;
+    el.innerHTML = wl.items.map(c => `<tr>
+      <td><span class="t-tic">${esc(c.symbol)}</span> <span class="t-name">${esc(c.name)}</span></td>
+      <td class="t-num">${c.price>=0.99&&c.price<=1.01?`$${c.price.toFixed(4)}`:`$${c.price.toLocaleString()}`}</td>
+      <td class="t-num">${fmt(c.mcap)}</td>
+      <td class="t-num">${c.chg30d==null?"—":(c.chg30d>=0?"+":"")+c.chg30d.toFixed(2)+"%"}</td>
+      <td>${miniBadge("public-secondary")}</td>
+      <td>${esc(wl.fetched)}<br>${freshChip(wl.fetched)}</td>
+    </tr>`).join("");
+    $("#watchlist-note").textContent = `Snapshot fetched ${wl.fetched} from ${wl.source} (public-secondary). Watchlist assets are monitored for coverage expansion — full teardowns not yet published.`;
+  }
+
+  /* ---------- reliability + intelligence ---------- */
   function renderReliability(){
-    const s = DATA.sources;
-    const by = t => s.filter(x=>x.type===t).length;
+    const s = DATA.sources; const by = t => s.filter(x=>x.type===t).length;
     const priv = s.filter(x=>x.publicStatus==="private").length;
     $("#reliability-counts").innerHTML = [
       ["Public primary", by("public-primary"), "public-primary"],
@@ -231,6 +187,8 @@
       ["Official gated / private", priv, "official-gated"],
       ["Total sources tracked", s.length, null]
     ].map(([l,n,st]) => `<div class="rc"><span class="rc-n">${n}</span><span class="rc-l">${st?badge(st):""}${esc(l)}</span></div>`).join("");
+    const cad = DATA.assets.cadence;
+    if(cad) $("#cadence-line").innerHTML = `<strong>Update cadence:</strong> ${esc(cad.note)} <span class="muted">(Automated monitor: ${esc(cad.monitor)}.)</span>`;
   }
 
   function renderChangeLog(){
@@ -242,24 +200,100 @@
     </div>`).join("");
   }
 
+  /* ---------- events ---------- */
   function bindTable(){
-    $("#table-search").addEventListener("input", e => { state.q = e.target.value; renderTable(); });
-    document.querySelectorAll("#asset-table th[data-sort]").forEach(th => {
-      th.addEventListener("click", () => {
-        const k = th.getAttribute("data-sort");
-        if(state.sortKey===k) state.sortDir *= -1; else { state.sortKey=k; state.sortDir = (k==="aum"||k==="chains") ? -1 : 1; }
-        renderTable();
-      });
+    $("#table-search").addEventListener("input", e => { state.q=e.target.value; renderTable(); });
+    [["#f-chain","chain"],["#f-structure","structure"],["#f-access","access"]].forEach(([sel,key])=>{
+      $(sel)?.addEventListener("change", e => { state[key]=e.target.value; renderTable(); });
+    });
+    $$(".preset-chips .chip").forEach(c => c.addEventListener("click", ()=>{
+      state.preset=c.dataset.preset; (PRESETS[state.preset]||PRESETS.all).apply(); renderTable();
+    }));
+    $$("#asset-table th[data-sort]").forEach(th => {
+      th.addEventListener("click", () => { const k=th.getAttribute("data-sort");
+        if(state.sortKey===k) state.sortDir*=-1; else { state.sortKey=k; state.sortDir=(k==="aum"||k==="chains"||k==="evidence")?-1:1; }
+        state.preset="custom"; renderTable(); });
       th.addEventListener("keydown", e => { if(e.key==="Enter"||e.key===" "){ e.preventDefault(); th.click(); } });
     });
   }
   function bindTheme(){
     const btn=$("#theme-toggle"); if(!btn) return;
     btn.addEventListener("click", () => {
-      const dark = document.documentElement.getAttribute("data-theme")==="dark";
+      const dark=document.documentElement.getAttribute("data-theme")==="dark";
       document.documentElement.setAttribute("data-theme", dark?"light":"dark");
       btn.setAttribute("aria-pressed", String(!dark)); btn.textContent = dark?"Dark":"Light";
     });
+  }
+
+  /* ---------- history charts (real series; scrub to read) ---------- */
+  const fmtUsd = v => v>=1e9 ? `$${(v/1e9).toFixed(2)}B` : v>=1e6 ? `$${(v/1e6).toFixed(1)}M` : `$${Math.round(v).toLocaleString()}`;
+  const fmtDate = t => new Date(t).toISOString().slice(0,10);
+  async function renderHistory(){
+    let hist; try { hist = await fetch("data/history.json").then(r=>r.json()); } catch(e){ return; }
+    const wrap = $("#history-grid"); if(!wrap) return;
+    const order = ["BUIDL","BENJI","EUTBL","WTGXX"];
+    wrap.innerHTML = order.filter(k=>hist.series[k]).map(k => {
+      const s=hist.series[k], pts=s.points, n=pts.length;
+      const delta = 100*(pts[n-1].v-pts[0].v)/pts[0].v;
+      const range = `${fmtDate(pts[0].t)} → ${fmtDate(pts[n-1].t)}`;
+      return `<div class="chart-card" data-series="${esc(k)}">
+        <div class="ch-head"><div><span class="ch-tic">${esc(k)}</span><span class="ch-lbl">${esc(s.label)}</span></div>
+          <div class="ch-right">${badge(s.status)}<span class="live-slot" id="live-${esc(k)}"></span></div></div>
+        <div class="ch-now"><span class="ch-val" id="chval-${esc(k)}">${fmtUsd(pts[n-1].v)}</span>
+          <span class="ch-date" id="chdate-${esc(k)}">${fmtDate(pts[n-1].t)}</span>
+          <span class="ch-delta">${delta>=0?"+":""}${delta.toFixed(1)}% over period</span></div>
+        <svg class="ch-svg" viewBox="0 0 600 180" preserveAspectRatio="none" role="img"
+             aria-label="${esc(k)} history ${esc(range)}"></svg>
+        <div class="ch-foot"><span>${esc(range)}</span><span class="ch-src">${esc(s.source)}</span></div>
+      </div>`;
+    }).join("");
+    order.filter(k=>hist.series[k]).forEach(k => drawChart(k, hist.series[k]));
+  }
+  function drawChart(key, s){
+    const card = document.querySelector(`.chart-card[data-series="${key}"]`);
+    const svg = card.querySelector("svg");
+    const pts=s.points, n=pts.length, W=600,H=180,P=8;
+    const vmin=Math.min(...pts.map(p=>p.v)), vmax=Math.max(...pts.map(p=>p.v));
+    const pad=(vmax-vmin)*0.08 || vmax*0.05;
+    const y=v=>H-P-(H-2*P)*((v-(vmin-pad))/((vmax+pad)-(vmin-pad)));
+    const x=i=>P+(W-2*P)*(i/(n-1));
+    const line=pts.map((p,i)=>`${i?"L":"M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
+    svg.innerHTML = `<path d="${line} L${x(n-1)},${H} L${x(0)},${H} Z" class="ch-area"/>
+      <path d="${line}" class="ch-line" fill="none"/>
+      <line class="ch-cross" x1="0" x2="0" y1="0" y2="${H}" style="display:none"/>
+      <circle class="ch-dot" r="4" style="display:none"/>`;
+    const cross=svg.querySelector(".ch-cross"), dot=svg.querySelector(".ch-dot");
+    const valEl=card.querySelector(`#chval-${key}`), dateEl=card.querySelector(`#chdate-${key}`);
+    const base={ v:fmtUsd(pts[n-1].v), d:fmtDate(pts[n-1].t) };
+    function scrub(cx){
+      const r=svg.getBoundingClientRect();
+      const i=Math.max(0,Math.min(n-1,Math.round((cx-r.left)/r.width*(n-1))));
+      cross.style.display=dot.style.display="";
+      cross.setAttribute("x1",x(i)); cross.setAttribute("x2",x(i));
+      dot.setAttribute("cx",x(i)); dot.setAttribute("cy",y(pts[i].v));
+      valEl.textContent = fmtUsd(pts[i].v)+(pts[i].y!=null?` · ${pts[i].y.toFixed(2)}% 7d`:"");
+      dateEl.textContent = fmtDate(pts[i].t);
+    }
+    function reset(){ cross.style.display=dot.style.display="none"; valEl.textContent=base.v; dateEl.textContent=base.d; }
+    svg.addEventListener("mousemove", e=>scrub(e.clientX));
+    svg.addEventListener("mouseleave", reset);
+    svg.addEventListener("touchmove", e=>{ if(e.touches[0]) scrub(e.touches[0].clientX); }, {passive:true});
+    svg.addEventListener("touchend", reset);
+  }
+
+  /* ---------- live market check (REAL data, timestamped; never simulated) ---------- */
+  async function liveCheck(){
+    const ids = { "blackrock-usd-institutional-digital-liquidity-fund":"BUIDL", "eutbl":"EUTBL" };
+    try {
+      const q = Object.keys(ids).join(",");
+      const d = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${q}&vs_currencies=usd&include_market_cap=true`,
+                            {signal: AbortSignal.timeout(8000)}).then(r=>r.json());
+      const hhmm = new Date().toTimeString().slice(0,5);
+      Object.entries(ids).forEach(([id,k])=>{
+        const slot=document.getElementById(`live-${k}`); const cap=d[id]?.usd_market_cap;
+        if(slot && cap) slot.innerHTML = `<span class="live-chip" title="Fetched live from CoinGecko (public-secondary) at ${hhmm} — real market data, not simulated">● live ${fmtUsd(cap)} · ${hhmm}</span>`;
+      });
+    } catch(e){ /* offline: dated snapshots remain — never simulate */ }
   }
 
   document.addEventListener("DOMContentLoaded", boot);

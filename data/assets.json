@@ -127,9 +127,9 @@
           "publicSafe": true
         },
         "change30d": {
-          "value": "−7.94% (RWA.xyz, 2026-06-29)",
-          "date": "2026-06-29",
-          "sourceId": "S-BUIDL-RWAXYZ",
+          "value": "−7.13% (mkt cap, 30d)",
+          "date": "2026-07-01",
+          "sourceId": "S-BUIDL-COINGECKO",
           "status": "public-secondary",
           "publicSafe": true
         },
@@ -296,7 +296,34 @@
           "category": "Contract controls",
           "priority": "medium"
         }
-      ]
+      ],
+      "whyItMatters": "The largest tokenized Treasury fund and the most-integrated institutional reference point. Private-fund documentation (3(c)(7)) is exactly why independent, public-source verification is needed.",
+      "profile": {
+        "custodian": {
+          "v": "Not publicly disclosed",
+          "st": "unverified"
+        },
+        "transferAgent": {
+          "v": "Not publicly disclosed",
+          "st": "unverified"
+        },
+        "auditor": {
+          "v": "Not publicly disclosed",
+          "st": "unverified"
+        },
+        "standard": {
+          "v": "ERC-20 (DSToken) · SPL · Aptos FA",
+          "st": "public-primary"
+        },
+        "jurisdiction": {
+          "v": "Not publicly disclosed",
+          "st": "unverified"
+        },
+        "scAudit": {
+          "v": "Halborn — DS Protocol v4 framework (Oct 2025)",
+          "st": "public-primary"
+        }
+      }
     },
     {
       "id": "WTGXX",
@@ -328,10 +355,10 @@
           "publicSafe": true
         },
         "change30d": {
-          "value": "−16.03%",
-          "date": "2026-06-30",
-          "sourceId": "S-WTGXX-RWAXYZ",
-          "status": "public-secondary",
+          "value": "+3.81% (SEC net assets, MoM)",
+          "date": "2026-05-31",
+          "sourceId": "S-WTGXX-NMFP",
+          "status": "public-primary",
           "publicSafe": true
         },
         "yield": {
@@ -421,7 +448,34 @@
           "category": "Holdings",
           "priority": "low"
         }
-      ]
+      ],
+      "whyItMatters": "A '40-Act CNAV money fund with a $1 minimum and publicly disclosed transfer-agent-authoritative ownership — the most complete public documentation trail of the four.",
+      "profile": {
+        "custodian": {
+          "v": "BNY Mellon",
+          "st": "public-primary"
+        },
+        "transferAgent": {
+          "v": "WisdomTree Transfers, Inc.",
+          "st": "public-primary"
+        },
+        "auditor": {
+          "v": "Ernst & Young",
+          "st": "public-primary"
+        },
+        "standard": {
+          "v": "Stellar asset · ERC-20",
+          "st": "public-secondary"
+        },
+        "jurisdiction": {
+          "v": "U.S. — Delaware statutory trust (SEC-registered)",
+          "st": "public-primary"
+        },
+        "scAudit": {
+          "v": "Not found in public sources",
+          "st": "unverified"
+        }
+      }
     },
     {
       "id": "BENJI",
@@ -453,10 +507,10 @@
           "publicSafe": true
         },
         "change30d": {
-          "value": "Unverified - additional primary source required",
-          "date": "2026-06-30",
-          "sourceId": null,
-          "status": "unverified",
+          "value": "−1.35% (SEC net assets, MoM)",
+          "date": "2026-05-31",
+          "sourceId": "S-BENJI-NMFP",
+          "status": "public-primary",
           "publicSafe": true
         },
         "yield": {
@@ -546,7 +600,34 @@
           "category": "Contract controls",
           "priority": "medium"
         }
-      ]
+      ],
+      "whyItMatters": "The first U.S.-registered mutual fund to process transactions and record share ownership on a public blockchain (2021) — the longest regulatory track record in the category.",
+      "profile": {
+        "custodian": {
+          "v": "J.P. Morgan",
+          "st": "public-secondary"
+        },
+        "transferAgent": {
+          "v": "Benji platform (Franklin Templeton)",
+          "st": "public-primary"
+        },
+        "auditor": {
+          "v": "Named in N-CSR (2026-05-28) — extraction pending",
+          "st": "unverified"
+        },
+        "standard": {
+          "v": "Stellar asset · ERC-20 · SPL",
+          "st": "public-secondary"
+        },
+        "jurisdiction": {
+          "v": "U.S. — SEC-registered ('40-Act)",
+          "st": "public-primary"
+        },
+        "scAudit": {
+          "v": "Not found in public sources",
+          "st": "unverified"
+        }
+      }
     },
     {
       "id": "EUTBL",
@@ -577,10 +658,10 @@
           "publicSafe": true
         },
         "change30d": {
-          "value": "Unverified - additional primary source required",
-          "date": "2026-06-30",
-          "sourceId": null,
-          "status": "unverified",
+          "value": "−9.27% (mkt cap, 30d)",
+          "date": "2026-07-01",
+          "sourceId": "S-EUTBL-CG",
+          "status": "public-secondary",
           "publicSafe": true
         },
         "yield": {
@@ -695,7 +776,34 @@
           "category": "Legal terms",
           "priority": "medium"
         }
-      ]
+      ],
+      "whyItMatters": "The largest EUR tokenized T-bill fund — and the only one of the four where the public blockchain itself is the legal share registry (UCITS, AMF-regulated).",
+      "profile": {
+        "custodian": {
+          "v": "CACEIS (Crédit Agricole)",
+          "st": "public-primary"
+        },
+        "transferAgent": {
+          "v": "Spiko",
+          "st": "public-primary"
+        },
+        "auditor": {
+          "v": "PwC (4 audits/year)",
+          "st": "public-primary"
+        },
+        "standard": {
+          "v": "ERC-20 (UUPS) · Stellar",
+          "st": "public-primary"
+        },
+        "jurisdiction": {
+          "v": "France — AMF (UCITS)",
+          "st": "public-primary"
+        },
+        "scAudit": {
+          "v": "Trail of Bits (Oct 2023)",
+          "st": "public-primary"
+        }
+      }
     }
   ],
   "coreQuestion": {
@@ -733,5 +841,10 @@
     "Where is the authoritative, dated holdings file, and how often is it refreshed?",
     "What primary fund document confirms the fee schedule (not an aggregator)?",
     "For VNAV funds, how is accretion handled at redemption versus a fixed-NAV dividend model?"
-  ]
+  ],
+  "cadence": {
+    "note": "Automated source monitor runs nightly (SEC EDGAR, RWA.xyz, on-chain state); SEC N-MFP net assets refresh monthly; on-chain reads and manual document review are dated per fact. Every asset row shows when it was last reviewed.",
+    "monitor": "GitHub Actions, nightly 7–11pm ET",
+    "dateChecked": "2026-07-01"
+  }
 }

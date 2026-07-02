@@ -151,7 +151,8 @@
       ["Issuer / manager", a.issuer],["Asset type", a.assetType],["Wrapper", a.wrapper],
       ["NAV", a.navType],["Investor eligibility", a.eligibility],["Chains", a.chains.join(", ")],
       ["Public / private status", isPrivate ? "Private feedback" : "Public-safe"],
-      ["Authoritative record", `${a.ownershipRecord.answer}`]
+      ["Authoritative record", `${a.ownershipRecord.answer}`],
+      ["Last reviewed", (a.summary && a.summary.lastChecked) || "—"]
     ].map(([k,v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
 
     renderTape();

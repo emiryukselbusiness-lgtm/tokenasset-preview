@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Tokenized Funds — TokenAsset</title>
+  <meta name="description" content="Side-by-side comparison of tokenized funds (BUIDL, WTGXX, BENJI, EUTBL): structure, custodian, transfer agent, redemption, ownership record, contract map — every cell evidence-labeled. No scores, no advice." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://example.com/rwa-teardown/compare.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Compare Tokenized Funds — TokenAsset" />
+  <meta property="og:site_name" content="TokenAsset" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="home">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="alert-band" role="region" aria-label="Status and disclaimer">
+    <div class="wrap alert-inner">
+      <span class="alert-status">Independent research</span>
+      <span class="alert-text">Not investment, legal, or tax advice. No scores, ratings, or recommendations. Every cell is source-labeled; open items are marked Unverified.</span>
+    </div>
+  </div>
+  <header class="masthead" role="banner">
+    <div class="wrap masthead-inner">
+      <a class="brand" href="index.html" aria-label="TokenAsset — home">
+        <span class="brand-mark" aria-hidden="true">◧</span>
+        <span class="brand-name">Token<strong>Asset</strong></span>
+      </a>
+      <nav class="toolbar" aria-label="Primary">
+        <a class="ctl btn" href="index.html">Home</a>
+        <a class="ctl btn" href="index.html#assets">Assets</a>
+        <button class="ctl btn" id="theme-toggle" aria-pressed="false" title="Toggle light/dark">Dark</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap home-main" tabindex="-1">
+    <section class="card" aria-labelledby="cmp-h">
+      <p class="eyebrow"><span class="num">01</span> Comparison</p>
+      <h2 id="cmp-h">Side-by-Side: Tokenized Funds</h2>
+      <p class="section-note">Pick the funds to compare. Every cell carries its evidence label; where a fund does not publicly disclose a fact, the cell says so — that absence is itself a diligence finding. Documentation coverage only; no scores.</p>
+      <div class="compare-picks" id="picks" role="group" aria-label="Funds to compare"></div>
+      <div class="table-scroll">
+        <table class="data-table compare-table" id="cmp-table"><thead></thead><tbody></tbody></table>
+      </div>
+    </section>
+    <footer class="site-footer">
+      <p id="footer-disclaimer">Informational diligence research only. Not investment advice, legal advice, tax advice, a rating, or a recommendation to buy, sell, hold, redeem, allocate to, integrate, or use any asset. Not affiliated with or endorsed by any exchange, issuer, or employer.</p>
+    </footer>
+  </main>
+
+  <script>
+  (() => {
+    "use strict";
+    const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const LBL = {"public-primary":"Public primary","public-secondary":"Public secondary","official-gated":"Official gated","internal-lead":"Internal lead","unverified":"Unverified","conflict":"Conflict"};
+    const badge = st => `<span class="badge mini ${esc(st)}"><span class="dot"></span>${esc(LBL[st]||st)}</span>`;
+    const cell = (v, st) => `${esc(v)}<br>${badge(st)}`;
+    let ASSETS=[], on={};
+
+    async function boot(){
+      const a = await fetch("data/assets.json").then(r=>r.json());
+      ASSETS = a.assets;
+      ASSETS.forEach(x => on[x.id]=true);
+      document.getElementById("picks").innerHTML = ASSETS.map(x =>
+        `<label><input type="checkbox" data-id="${esc(x.id)}" checked /> <strong>${esc(x.ticker)}</strong>&nbsp;<span class="muted">${esc(x.issuer)}</span></label>`).join("");
+      document.querySelectorAll("#picks input").forEach(cb => cb.addEventListener("change", e=>{
+        on[e.target.dataset.id]=e.target.checked; render();
+      }));
+      render();
+      const btn=document.getElementById("theme-toggle");
+      btn.addEventListener("click",()=>{ const d=document.documentElement.getAttribute("data-theme")==="dark";
+        document.documentElement.setAttribute("data-theme",d?"light":"dark"); btn.setAttribute("aria-pressed",String(!d)); btn.textContent=d?"Dark":"Light"; });
+    }
+
+    function rows(x){
+      const p=x.profile||{}, s=x.summary||{}, t=x.tape||{};
+      return {
+        "AUM": cell(t.aum?.value||"—", t.aum?.status||"unverified") + `<span class="ev-num">as of ${esc(t.aum?.date||"—")}</span>`,
+        "30-day change": cell(t.change30d?.value||"Unverified - additional primary source required", t.change30d?.status||"unverified"),
+        "Structure / wrapper": cell(x.wrapper, "public-primary"),
+        "NAV type": cell(x.navType, "public-primary"),
+        "Investor eligibility": cell(x.eligibility, "public-primary"),
+        "Chains": cell((x.chains||[]).join(", "), "public-primary"),
+        "Custodian": cell(p.custodian?.v||"—", p.custodian?.st||"unverified"),
+        "Transfer agent": cell(p.transferAgent?.v||"—", p.transferAgent?.st||"unverified"),
+        "Financial auditor": cell(p.auditor?.v||"—", p.auditor?.st||"unverified"),
+        "Smart-contract audit": cell(p.scAudit?.v||"—", p.scAudit?.st||"unverified"),
+        "Token standard": cell(p.standard?.v||"—", p.standard?.st||"unverified"),
+        "Jurisdiction / regulator": cell(p.jurisdiction?.v||"—", p.jurisdiction?.st||"unverified"),
+        "Redemption": cell(s.redemption?.label||"—", s.redemption?.status||"unverified"),
+        "Authoritative ownership record": cell(x.ownershipRecord?.detail||"—", x.ownershipRecord?.status||"unverified"),
+        "Contract map": cell(s.contractMap?.label||"—", s.contractMap?.status||"unverified"),
+        "Last reviewed": `${esc(s.lastChecked||"—")}`,
+        "Why it matters": `<span class="t-why" style="max-width:none">${esc(x.whyItMatters||"—")}</span>`
+      };
+    }
+
+    function render(){
+      const sel = ASSETS.filter(x=>on[x.id]);
+      const thead = document.querySelector("#cmp-table thead");
+      const tbody = document.querySelector("#cmp-table tbody");
+      thead.innerHTML = `<tr><th class="rowh">Dimension</th>${sel.map(x=>`<th scope="col"><a class="t-tic" href="teardown.html?asset=${esc(x.id.toLowerCase())}">${esc(x.ticker)}</a><span class="t-name">${esc(x.name)}</span></th>`).join("")}</tr>`;
+      const dims = sel.length ? Object.keys(rows(sel[0])) : [];
+      tbody.innerHTML = dims.map(dim =>
+        `<tr><th class="rowh" scope="row">${esc(dim)}</th>${sel.map(x=>`<td>${rows(x)[dim]}</td>`).join("")}</tr>`).join("");
+    }
+    document.addEventListener("DOMContentLoaded", boot);
+  })();
+  </script>
+</body>
+</html>
