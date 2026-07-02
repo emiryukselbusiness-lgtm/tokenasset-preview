@@ -361,6 +361,32 @@ a.btn { text-decoration:none; display:inline-flex; align-items:center; }
 .cl-rev.flag { color:var(--s-og-fg); }
 @media (max-width:640px){ .section-head { align-items:stretch; } .field.inline { max-width:none; width:100%; } }
 
+/* ---- market tape (TradingView-style strip; real values only) ---- */
+.market-tape { border-bottom:1px solid var(--line); background:var(--panel); overflow:hidden; white-space:nowrap; }
+.tape-track { display:inline-flex; align-items:center; padding:7px 0; animation:tape-scroll 55s linear infinite; will-change:transform; }
+.market-tape:hover .tape-track { animation-play-state:paused; }
+@keyframes tape-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce){ .tape-track { animation:none; } }
+.tape-item { display:inline-flex; align-items:center; gap:7px; padding:0 18px; border-right:1px solid var(--hair); font-size:12px; font-family:var(--mono); color:var(--ink-2); }
+.tape-item b { color:var(--ink); font-weight:700; }
+.tape-label { border-right-color:transparent; }
+
+/* ---- watchlist sparklines ---- */
+.spark { width:110px; height:26px; display:block; }
+.spark polyline { stroke-width:1.6; }
+.spark.up polyline { stroke:var(--s-pp-fg); }
+.spark.dn polyline { stroke:var(--s-uv-fg); }
+
+/* ---- 4-fund share bar ---- */
+.share-bar { margin:4px 0 18px; }
+.sb-bar { display:flex; height:14px; border-radius:var(--pill); overflow:hidden; border:1px solid var(--hair); }
+.sb-seg { display:block; height:100%; }
+.sb-legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:11.5px; color:var(--ink-2); align-items:center; }
+.sb-legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:baseline; }
+
+/* ---- per-browser view counts ---- */
+.t-views { display:block; font-size:10px; color:var(--muted); margin-top:4px; font-family:var(--mono); }
+
 /* ---- preset chips + table filters ---- */
 .preset-chips { display:flex; gap:8px; flex-wrap:wrap; margin:2px 0 12px; }
 .chip { font-size:12px; padding:6px 13px; border:1px solid var(--line); border-radius:var(--pill); background:var(--panel); color:var(--ink-2); cursor:pointer; }

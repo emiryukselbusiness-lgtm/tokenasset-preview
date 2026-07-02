@@ -64,6 +64,8 @@
     </div>
   </header>
 
+  <div class="market-tape" id="market-tape" hidden aria-label="Market tape — real values, live where available"></div>
+
   <main id="cockpit" class="wrap home-main" tabindex="-1">
 
     <!-- HERO: data-first -->
@@ -88,6 +90,7 @@
         <button class="chip" data-preset="complete">Most complete documentation</button>
         <button class="chip" data-preset="updated">Recently updated</button>
         <button class="chip" data-preset="review">Under review / open items</button>
+        <button class="chip" data-preset="viewed" title="Real opens from this browser only — becomes site-wide once analytics are wired">Most viewed (your clicks)</button>
       </div>
       <div class="filters table-filters">
         <label class="field"><span class="ctl-label">Blockchain</span><select id="f-chain" aria-label="Filter by blockchain"></select></label>
@@ -127,6 +130,7 @@
         <div><p class="eyebrow"><span class="num">03</span> History</p><h2 id="hist-h">Fund Size Over Time</h2></div>
       </div>
       <p class="section-note">Real historical series only — SEC monthly N-MFP filings (public-primary) and CoinGecko market data (public-secondary). Move your cursor across a chart to read the value at any point. Where available, a live market figure is fetched at page load, timestamped, and labeled — nothing here is simulated. Size history is documentation of scale — it is not a performance measure.</p>
+      <div class="share-bar" id="share-bar" aria-label="Tracked-fund AUM share"></div>
       <div class="history-grid" id="history-grid"></div>
     </section>
 
@@ -137,7 +141,7 @@
       <p class="section-note" id="watchlist-note">Loading…</p>
       <div class="table-scroll">
         <table class="data-table intel-table" id="watchlist-table">
-          <thead><tr><th scope="col">Asset</th><th scope="col">Price</th><th scope="col">Market cap</th><th scope="col">30-day</th><th scope="col">Evidence</th><th scope="col">As of</th></tr></thead>
+          <thead><tr><th scope="col">Asset</th><th scope="col">Price</th><th scope="col">Market cap</th><th scope="col">30-day</th><th scope="col">7-day trend</th><th scope="col">Evidence</th><th scope="col">As of</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>

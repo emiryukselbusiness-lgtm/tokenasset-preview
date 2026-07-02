@@ -47,8 +47,36 @@
       console.error(e); return;
     }
     renderKpis(); buildFilters(); renderTable(); renderReliability(); renderChangeLog();
-    bindTheme(); bindTable();
-    renderHistory(); renderWatchlist(); liveCheck();
+    bindTheme(); bindTable(); bindViewTracking();
+    renderShareBar(); renderHistory(); renderWatchlist(); liveCheck();
+  }
+
+  /* ---------- real per-browser view tracking (never fabricated) ---------- */
+  const VIEWS_KEY = "ta_views";
+  const getViews = () => { try { return JSON.parse(localStorage.getItem(VIEWS_KEY)||"{}"); } catch(e){ return {}; } };
+  function bindViewTracking(){
+    document.addEventListener("click", e => {
+      const a = e.target.closest('a[href*="teardown.html?asset="]');
+      if(!a) return;
+      const m = a.getAttribute("href").match(/asset=(\w+)/);
+      if(!m) return;
+      const v = getViews(); const k = m[1].toUpperCase();
+      v[k] = (v[k]||0)+1;
+      try { localStorage.setItem(VIEWS_KEY, JSON.stringify(v)); } catch(err){}
+    });
+  }
+
+  /* ---------- 4-fund AUM share bar (real, sourced values) ---------- */
+  function renderShareBar(){
+    const el = $("#share-bar"); if(!el) return;
+    const rows = DATA.assets.assets.map(a => ({ t:a.ticker, v:parseAum(a.tape?.aum?.value), d:a.tape?.aum?.date }))
+      .filter(r=>r.v>0).sort((a,b)=>b.v-a.v);
+    const tot = rows.reduce((s,r)=>s+r.v,0);
+    const COLORS = ["var(--accent)","var(--accent-2)","var(--s-ps-fg)","var(--s-og-fg)"];
+    el.innerHTML = `<div class="sb-bar" role="img" aria-label="Share of combined tracked-fund AUM">` +
+      rows.map((r,i)=>`<span class="sb-seg" style="width:${(100*r.v/tot).toFixed(1)}%;background:${COLORS[i%4]}" title="${r.t} ${(100*r.v/tot).toFixed(1)}%"></span>`).join("") + `</div>
+      <div class="sb-legend">` + rows.map((r,i)=>`<span><i style="background:${COLORS[i%4]}"></i>${r.t} ${(100*r.v/tot).toFixed(1)}%</span>`).join("") +
+      `<span class="muted">of combined tracked AUM ($${(tot/1e9).toFixed(2)}B) · per-asset sources &amp; dates in the table above</span></div>`;
   }
 
   /* ---------- evidence profile (documentation coverage, NOT a score) ---------- */
@@ -97,7 +125,8 @@
     largest:  { label:"Largest funds", apply:()=>{ state.sortKey="aum"; state.sortDir=-1; } },
     complete: { label:"Most complete documentation", apply:()=>{ state.sortKey="evidence"; state.sortDir=-1; } },
     updated:  { label:"Recently updated", apply:()=>{ state.sortKey="lastChecked"; state.sortDir=-1; } },
-    review:   { label:"Under review / open items", apply:()=>{ state.sortKey="evidence"; state.sortDir=1; } }
+    review:   { label:"Under review / open items", apply:()=>{ state.sortKey="evidence"; state.sortDir=1; } },
+    viewed:   { label:"Most viewed (your clicks)", apply:()=>{ state.sortKey="views"; state.sortDir=-1; } }
   };
 
   function haystack(a){
@@ -124,9 +153,10 @@
       state.structure==="ucits" ? r.wrapper.includes("ucits") : r.wrapper.includes("private"));
     if(state.access!=="all") rows = rows.filter(r =>
       state.access==="retail" ? /retail|\$1\b|€1,000/.test(r.eligibility) : /institutional|qualified/.test(r.eligibility));
-    const key=state.sortKey, dir=state.sortDir;
+    const key=state.sortKey, dir=state.sortDir, views=getViews();
     const val = r => key==="aum" ? parseAum(r.aum.value) : key==="chains" ? r.chains
-      : key==="evidence" ? r.ev.completeness : key==="lastChecked" ? (r.lastChecked||"") : (r[key]||"").toString().toLowerCase();
+      : key==="evidence" ? r.ev.completeness : key==="views" ? (views[r.id]||0)
+      : key==="lastChecked" ? (r.lastChecked||"") : (r[key]||"").toString().toLowerCase();
     rows.sort((x,y)=>{ const a=val(x),b=val(y); return (a<b?-1:a>b?1:0)*dir; });
     return rows;
   }
@@ -148,7 +178,8 @@
         <td>${esc(r.lastChecked||"—")}<br>${freshChip(r.lastChecked)}</td>
         <td>${evBar(r.ev)}</td>
         <td><a class="btn-sm" href="teardown.html?asset=${esc(r.id.toLowerCase())}">Open →</a>
-            <a class="btn-sm" href="compare.html">Compare</a></td>
+            <a class="btn-sm" href="compare.html">Compare</a>
+            ${(getViews()[r.id]||0)>0?`<span class="t-views" title="Opens from this browser only — not site-wide analytics">${getViews()[r.id]} view${getViews()[r.id]>1?"s":""} (you)</span>`:""}</td>
       </tr>`;
     }).join("");
     $("#asset-table tbody").innerHTML = rows || `<tr><td colspan="11" class="empty">No assets match the current filters.</td></tr>`;
@@ -161,20 +192,69 @@
     $$(".preset-chips .chip").forEach(c => c.classList.toggle("on", c.dataset.preset===state.preset));
   }
 
-  /* ---------- watchlist (broader market, real CoinGecko data) ---------- */
+  /* ---------- watchlist (broader market; snapshot + LIVE in-browser refresh) ---------- */
+  let WL = null;
+  const fmtCap = v => v>=1e9?`$${(v/1e9).toFixed(1)}B`:v>=1e6?`$${(v/1e6).toFixed(0)}M`:`$${Math.round(v).toLocaleString()}`;
+  const fmtPx = p => (p>=0.98&&p<=1.02)?`$${p.toFixed(4)}`:`$${p.toLocaleString(undefined,{maximumFractionDigits:2})}`;
+  function sparkSvg(arr, id){
+    if(!arr || arr.length<3) return `<span class="muted">—</span>`;
+    const W=110,H=26,P=2;
+    const mn=Math.min(...arr), mx=Math.max(...arr), rng=(mx-mn)||mx*0.001||1;
+    const pts=arr.map((v,i)=>`${(P+(W-2*P)*i/(arr.length-1)).toFixed(1)},${(H-P-(H-2*P)*((v-mn)/rng)).toFixed(1)}`).join(" ");
+    const up = arr[arr.length-1] >= arr[0];
+    return `<svg class="spark ${up?"up":"dn"}" viewBox="0 0 ${W} ${H}" data-spark="${esc(id)}" role="img" aria-label="7-day trend"><polyline points="${pts}" fill="none"/></svg>`;
+  }
   async function renderWatchlist(){
-    let wl; try { wl = await fetch("data/watchlist.json").then(r=>r.json()); } catch(e){ return; }
+    try { WL = await fetch("data/watchlist.json").then(r=>r.json()); } catch(e){ return; }
     const el=$("#watchlist-table tbody"); if(!el) return;
-    const fmt = v => v>=1e9?`$${(v/1e9).toFixed(1)}B`:v>=1e6?`$${(v/1e6).toFixed(0)}M`:`$${Math.round(v).toLocaleString()}`;
-    el.innerHTML = wl.items.map(c => `<tr>
+    el.innerHTML = WL.items.map(c => `<tr data-wl="${esc(c.id)}">
       <td><span class="t-tic">${esc(c.symbol)}</span> <span class="t-name">${esc(c.name)}</span></td>
-      <td class="t-num">${c.price>=0.99&&c.price<=1.01?`$${c.price.toFixed(4)}`:`$${c.price.toLocaleString()}`}</td>
-      <td class="t-num">${fmt(c.mcap)}</td>
-      <td class="t-num">${c.chg30d==null?"—":(c.chg30d>=0?"+":"")+c.chg30d.toFixed(2)+"%"}</td>
+      <td class="t-num" data-cell="px">${fmtPx(c.price)}</td>
+      <td class="t-num" data-cell="mc">${fmtCap(c.mcap)}</td>
+      <td class="t-num" data-cell="ch">${c.chg30d==null?"—":(c.chg30d>=0?"+":"")+c.chg30d.toFixed(2)+"% (30d)"}</td>
+      <td data-cell="spark">${sparkSvg(c.spark7d, c.id)}</td>
       <td>${miniBadge("public-secondary")}</td>
-      <td>${esc(wl.fetched)}<br>${freshChip(wl.fetched)}</td>
+      <td data-cell="asof">${esc(WL.fetched)}<br>${freshChip(WL.fetched)}</td>
     </tr>`).join("");
-    $("#watchlist-note").textContent = `Snapshot fetched ${wl.fetched} from ${wl.source} (public-secondary). Watchlist assets are monitored for coverage expansion — full teardowns not yet published.`;
+    $("#watchlist-note").innerHTML = `Snapshot ${esc(WL.fetched)} from ${esc(WL.source)} (public-secondary) — <span id="wl-live-status">attempting live refresh…</span> Watchlist assets are monitored for coverage expansion; full teardowns not yet published.`;
+    refreshWatchlistLive();
+  }
+  async function refreshWatchlistLive(){
+    const status = $("#wl-live-status");
+    try {
+      const ids = (WL.liveIds||WL.items.map(i=>i.id)).join(",");
+      const m = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&price_change_percentage=30d&sparkline=true`,
+                            {signal: AbortSignal.timeout(9000)}).then(r=>r.json());
+      const hhmm = new Date().toTimeString().slice(0,5);
+      m.forEach(c => {
+        const tr = document.querySelector(`tr[data-wl="${c.id}"]`); if(!tr) return;
+        tr.querySelector('[data-cell="px"]').textContent = fmtPx(c.current_price);
+        tr.querySelector('[data-cell="mc"]').textContent = fmtCap(c.market_cap);
+        const ch = c.price_change_percentage_30d_in_currency;
+        tr.querySelector('[data-cell="ch"]').textContent = ch==null?"—":(ch>=0?"+":"")+ch.toFixed(2)+"% (30d)";
+        const spark=(c.sparkline_in_7d?.price||[]).filter((_,i)=>i%6===0);
+        if(spark.length>2) tr.querySelector('[data-cell="spark"]').innerHTML = sparkSvg(spark, c.id);
+        tr.querySelector('[data-cell="asof"]').innerHTML = `<span class="live-chip">● live ${hhmm}</span>`;
+      });
+      if(status) status.innerHTML = `<span class="live-chip">● LIVE</span> refreshed in-browser at ${hhmm} from CoinGecko (real market data — never simulated).`;
+      renderTape(m, hhmm);
+    } catch(e){
+      if(status) status.textContent = `live refresh unavailable — showing the dated snapshot (never simulated).`;
+      renderTape(null, null);
+    }
+  }
+
+  /* ---------- market tape (TradingView-style strip; real values only) ---------- */
+  function renderTape(live, hhmm){
+    const el = $("#market-tape"); if(!el || !WL) return;
+    const src = live ? live.map(c=>({s:c.symbol.toUpperCase(), p:c.current_price, m:c.market_cap}))
+                     : WL.items.map(c=>({s:c.symbol, p:c.price, m:c.mcap}));
+    const chip = c => `<span class="tape-item"><b>${esc(c.s)}</b> ${fmtPx(c.p)} <span class="muted">${fmtCap(c.m)}</span></span>`;
+    const lbl = live ? `<span class="tape-item tape-label"><span class="live-chip">● live ${esc(hhmm)}</span></span>`
+                     : `<span class="tape-item tape-label"><span class="muted">snapshot ${esc(WL.fetched)}</span></span>`;
+    const seq = lbl + src.map(chip).join("");
+    el.innerHTML = `<div class="tape-track">${seq}${seq}</div>`; // duplicated for seamless loop
+    el.hidden = false;
   }
 
   /* ---------- reliability + intelligence ---------- */
