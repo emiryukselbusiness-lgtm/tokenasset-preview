@@ -4,7 +4,7 @@
   "generated": "2026-07-01",
   "publisher": "TokenAsset — independent, source-backed diligence & monitoring for tokenized funds",
   "disclaimer": "Independent diligence research. Not investment advice, legal advice, or tax advice. No scores, ratings, grades, rankings, or buy/sell/hold recommendations. Every claim carries a source/status label. Missing facts are marked: Unverified - additional primary source required.",
-  "lastRefresh": "2026-07-01",
+  "lastRefresh": "2026-07-02",
   "market": {
     "totalRWA": {
       "label": "Tokenized RWA on-chain",
@@ -47,6 +47,30 @@
     }
   },
   "changeLog": [
+    {
+      "date": "2026-07-02",
+      "asset": "WTGXX",
+      "source": "SEC EDGAR",
+      "change": "New filing detected: Form 40-17G (fidelity bond), accession 0001214659-26-008116, filed 2026-07-02.",
+      "evidence": "public-primary",
+      "reviewer": "Reviewed"
+    },
+    {
+      "date": "2026-07-02",
+      "asset": "BENJI",
+      "source": "SEC EDGAR — N-CSR (2026-05-28)",
+      "change": "Financial auditor confirmed from the annual report: PricewaterhouseCoopers LLP signs the audit opinion. Closes a previously open item.",
+      "evidence": "public-primary",
+      "reviewer": "Reviewed"
+    },
+    {
+      "date": "2026-07-02",
+      "asset": "BUIDL",
+      "source": "On-chain — public RPC (9 deployments)",
+      "change": "Daily on-chain re-read: total supply $2,242,107,932.07 (−$6.5M vs 2026-07-01).",
+      "evidence": "public-primary",
+      "reviewer": "Reviewed"
+    },
     {
       "date": "2026-07-01",
       "asset": "WTGXX / BENJI",
@@ -120,8 +144,8 @@
       "statusNote": "Private-feedback draft. Public-safe sections use only public sources (SEC, block explorers, Securitize open-source code, public Halborn audit). Account-source AUM/NAV/holdings are official gated and excluded from the public-safe page.",
       "tape": {
         "aum": {
-          "value": "$2.2486B (on-chain totalSupply)",
-          "date": "2026-07-01",
+          "value": "$2.2421B (on-chain totalSupply)",
+          "date": "2026-07-02",
           "sourceId": "S-BUIDL-ONCHAIN",
           "status": "public-primary",
           "publicSafe": true
@@ -147,7 +171,7 @@
         "status": "unverified"
       },
       "summary": {
-        "lastChecked": "2026-07-01",
+        "lastChecked": "2026-07-02",
         "ownership": {
           "status": "unverified",
           "label": "Not publicly disclosed"
@@ -375,7 +399,7 @@
         "status": "public-primary"
       },
       "summary": {
-        "lastChecked": "2026-07-01",
+        "lastChecked": "2026-07-02",
         "ownership": {
           "status": "public-primary",
           "label": "Transfer-agent book-entry (SEC 497)"
@@ -527,7 +551,7 @@
         "status": "public-primary"
       },
       "summary": {
-        "lastChecked": "2026-07-01",
+        "lastChecked": "2026-07-02",
         "ownership": {
           "status": "public-primary",
           "label": "Transfer agent (hybrid, SEC N-1A)"
@@ -543,7 +567,6 @@
       },
       "keyGaps": [
         "Stellar minimum investment (exact figure)",
-        "Sub-adviser and auditor identity",
         "Full holdings disclosure",
         "Smart-contract audit report"
       ],
@@ -612,8 +635,8 @@
           "st": "public-primary"
         },
         "auditor": {
-          "v": "Named in N-CSR (2026-05-28) — extraction pending",
-          "st": "unverified"
+          "v": "PricewaterhouseCoopers LLP",
+          "st": "public-primary"
         },
         "standard": {
           "v": "Stellar asset · ERC-20 · SPL",

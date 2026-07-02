@@ -302,6 +302,17 @@
         "C-EUTBL-APY",
         "C-EUTBL-HOLDERS"
       ]
+    },
+    {
+      "id": "S-BENJI-NCSR",
+      "title": "SEC EDGAR — FOBXX N-CSR annual report (filed 2026-05-28, acc 0001133228-26-008451); audit opinion signed by PricewaterhouseCoopers LLP",
+      "url": "https://www.sec.gov/Archives/edgar/data/1786958/000113322826008451/",
+      "type": "public-primary",
+      "publicStatus": "public",
+      "dateChecked": "2026-07-02",
+      "claimIds": [
+        "C-BENJI-CUST"
+      ]
     }
   ]
 }

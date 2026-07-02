@@ -471,12 +471,13 @@
       "asset": "BENJI",
       "section": "custody",
       "label": "Service providers",
-      "value": "Transfer agent: Benji platform (Franklin Templeton proprietary). Custodian: J.P. Morgan (secondary). Sub-adviser and auditor: Unverified - additional primary source required.",
-      "status": "public-secondary",
+      "value": "Transfer agent: Benji platform (Franklin Templeton proprietary). Custodian: J.P. Morgan (secondary). Financial auditor: PricewaterhouseCoopers LLP — signs the audit opinion in the N-CSR annual report filed 2026-05-28 (public-primary). Sub-adviser: Unverified - additional primary source required.",
+      "status": "public-primary",
       "sources": [
-        "S-BENJI-RWAXYZ"
+        "S-BENJI-RWAXYZ",
+        "S-BENJI-NCSR"
       ],
-      "dateChecked": "2026-06-30",
+      "dateChecked": "2026-07-02",
       "publicSafe": true
     },
     {
